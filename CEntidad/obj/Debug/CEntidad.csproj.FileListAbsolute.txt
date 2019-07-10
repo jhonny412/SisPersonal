@@ -1,0 +1,6 @@
+D:\Sistemas\SisPersonal\CEntidad\bin\Debug\CEntidad.dll
+D:\Sistemas\SisPersonal\CEntidad\bin\Debug\CEntidad.pdb
+D:\Sistemas\SisPersonal\CEntidad\obj\Debug\CEntidad.dll
+D:\Sistemas\SisPersonal\CEntidad\obj\Debug\CEntidad.pdb
+D:\Sistemas\SisPersonal\CEntidad\obj\Debug\CEntidad.csprojAssemblyReference.cache
+D:\Sistemas\SisPersonal\CEntidad\obj\Debug\CEntidad.csproj.CoreCompileInputs.cache

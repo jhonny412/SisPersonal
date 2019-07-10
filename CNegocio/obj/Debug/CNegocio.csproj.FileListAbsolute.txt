@@ -1,0 +1,11 @@
+D:\Sistemas\SisPersonal\CNegocio\bin\Debug\CNegocio.dll
+D:\Sistemas\SisPersonal\CNegocio\bin\Debug\CNegocio.pdb
+D:\Sistemas\SisPersonal\CNegocio\bin\Debug\CAD.dll
+D:\Sistemas\SisPersonal\CNegocio\bin\Debug\CEntidad.dll
+D:\Sistemas\SisPersonal\CNegocio\bin\Debug\CAD.pdb
+D:\Sistemas\SisPersonal\CNegocio\bin\Debug\CEntidad.pdb
+D:\Sistemas\SisPersonal\CNegocio\obj\Debug\CNegocio.dll
+D:\Sistemas\SisPersonal\CNegocio\obj\Debug\CNegocio.pdb
+D:\Sistemas\SisPersonal\CNegocio\obj\Debug\CNegocio.csprojAssemblyReference.cache
+D:\Sistemas\SisPersonal\CNegocio\obj\Debug\CNegocio.csproj.CoreCompileInputs.cache
+D:\Sistemas\SisPersonal\CNegocio\obj\Debug\CNegocio.csproj.CopyComplete
