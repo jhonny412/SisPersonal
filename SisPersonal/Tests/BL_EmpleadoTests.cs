@@ -26,7 +26,7 @@ namespace Tests
                 Ape_Paterno = "García",
                 Ape_Materno = "López",
                 Nombres = "Juan Carlos",
-                dni = "12345678",
+                DNI = "12345678",
                 Direccion = "Av. Principal 123",
                 Estado = true
             };
@@ -65,7 +65,7 @@ namespace Tests
             _mockDEmpleado.Setup(x => x.buscarPersona(It.IsAny<E_Empleado>()))
                          .Returns(emptyDataTable);
 
-            var empleadoInvalido = new E_Empleado { dni = "99999999" };
+            var empleadoInvalido = new E_Empleado { DNI = "99999999" };
 
             // Act
             var result = _blEmpleado.buscarPersona(empleadoInvalido);
@@ -137,7 +137,7 @@ namespace Tests
 
             // Assert
             _mockDEmpleado.Verify(x => x.buscarPersona(
-                It.Is<E_Empleado>(e => e.dni == "12345678")), Times.Once);
+                It.Is<E_Empleado>(e => e.DNI == "12345678")), Times.Once);
         }
 
         [Test]
@@ -148,16 +148,16 @@ namespace Tests
             _mockDEmpleado.Setup(x => x.buscarPersona(It.IsAny<E_Empleado>()))
                          .Returns(dataTable);
 
-            var empleado1 = new E_Empleado { dni = "11111111" };
-            var empleado2 = new E_Empleado { dni = "22222222" };
+            var empleado1 = new E_Empleado { DNI = "11111111" };
+            var empleado2 = new E_Empleado { DNI = "22222222" };
 
             // Act
             _blEmpleado.buscarPersona(empleado1);
             _blEmpleado.buscarPersona(empleado2);
 
             // Assert
-            _mockDEmpleado.Verify(x => x.buscarPersona(It.Is<E_Empleado>(e => e.dni == "11111111")), Times.Once);
-            _mockDEmpleado.Verify(x => x.buscarPersona(It.Is<E_Empleado>(e => e.dni == "22222222")), Times.Once);
+            _mockDEmpleado.Verify(x => x.buscarPersona(It.Is<E_Empleado>(e => e.DNI == "11111111")), Times.Once);
+            _mockDEmpleado.Verify(x => x.buscarPersona(It.Is<E_Empleado>(e => e.DNI == "22222222")), Times.Once);
             _mockDEmpleado.Verify(x => x.buscarPersona(It.IsAny<E_Empleado>()), Times.Exactly(2));
         }
 

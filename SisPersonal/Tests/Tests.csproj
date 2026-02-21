@@ -59,6 +59,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BL_MarcacionTests.cs" />
     <Compile Include="BL_UsuarioTests.cs" />
     <Compile Include="BL_EmpleadoTests.cs" />
     <Compile Include="E_UsuarioTests.cs" />

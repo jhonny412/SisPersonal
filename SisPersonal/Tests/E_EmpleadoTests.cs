@@ -42,7 +42,7 @@ namespace Tests
             _empleado.Ape_Paterno = expectedApePaterno;
             _empleado.Ape_Materno = expectedApeMaterno;
             _empleado.Nombres = expectedNombres;
-            _empleado.dni = expectedDni;
+            _empleado.DNI = expectedDni;
             _empleado.Direccion = expectedDireccion;
             _empleado.Estado = expectedEstado;
 
@@ -51,7 +51,7 @@ namespace Tests
             Assert.AreEqual(expectedApePaterno, _empleado.Ape_Paterno);
             Assert.AreEqual(expectedApeMaterno, _empleado.Ape_Materno);
             Assert.AreEqual(expectedNombres, _empleado.Nombres);
-            Assert.AreEqual(expectedDni, _empleado.dni);
+            Assert.AreEqual(expectedDni, _empleado.DNI);
             Assert.AreEqual(expectedDireccion, _empleado.Direccion);
             Assert.AreEqual(expectedEstado, _empleado.Estado);
         }
@@ -66,10 +66,10 @@ namespace Tests
         public void ValidarDNI_ReturnsExpectedResult(string dni, bool expected)
         {
             // Arrange
-            _empleado.dni = dni;
+            _empleado.DNI = dni;
 
             // Act
-            bool resultado = !string.IsNullOrEmpty(_empleado.dni) && _empleado.dni.Length == 8;
+            bool resultado = !string.IsNullOrEmpty(_empleado.DNI) && _empleado.DNI.Length == 8;
 
             // Assert
             Assert.AreEqual(expected, resultado);
@@ -133,7 +133,7 @@ namespace Tests
             Assert.IsNull(empleado.Ape_Paterno);
             Assert.IsNull(empleado.Ape_Materno);
             Assert.IsNull(empleado.Nombres);
-            Assert.IsNull(empleado.dni);
+            Assert.IsNull(empleado.DNI);
             Assert.IsNull(empleado.Direccion);
             Assert.IsFalse(empleado.Estado);
         }
