@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 
 namespace CAD
 {
-    public class D_Marcaciones
+    public class D_Marcaciones : ID_Marcaciones
     {
         //D_Marcaciones objEMarcacion = new D_Marcaciones();
         Conexion objCon = new Conexion();
@@ -70,7 +70,7 @@ namespace CAD
                 SqlCommand cmd = new SqlCommand("spMarcacionEmpleado", cnx);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@dni", objEmp.dni);
+                cmd.Parameters.AddWithValue("@dni", objEmp.DNI);
                 cmd.Parameters.AddWithValue("@FECHA", objEmp.Fecha);
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);

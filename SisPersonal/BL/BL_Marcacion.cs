@@ -7,7 +7,15 @@ namespace BL
 {
     public class BL_Marcacion
     {
-        D_Marcaciones objDMarcacion = new D_Marcaciones();
+        private readonly ID_Marcaciones objDMarcacion;
+
+        public BL_Marcacion() : this(new D_Marcaciones()) { }
+
+        public BL_Marcacion(ID_Marcaciones dMarcacion)
+        {
+            objDMarcacion = dMarcacion;
+        }
+
         public DataTable ListarMarcaciones()
         {
             return objDMarcacion.ListarMarcaciones();

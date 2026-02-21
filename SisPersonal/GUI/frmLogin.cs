@@ -2,6 +2,7 @@
 using CE;
 using System;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace GUI
 {
@@ -20,6 +21,11 @@ namespace GUI
         private void frmLogin_Load(object sender, EventArgs e)
         {
             ApplyModernStyles();
+        }
+
+        private void frmLogin_Shown(object sender, EventArgs e)
+        {
+            this.ActiveControl = txtUsuario;
         }
 
         private void ApplyModernStyles()
@@ -50,6 +56,10 @@ namespace GUI
             
             txtClave.Enter += (s, e) => txtClave.BackColor = UIStyles.LightBlue;
             txtClave.Leave += (s, e) => txtClave.BackColor = UIStyles.White;
+
+            // Inicializar progress bar
+            pgbLogin.Value = 0;
+            pgbLogin.Visible = false;
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -57,7 +67,7 @@ namespace GUI
             System.Diagnostics.Process.Start("chrome", "http://www.bluecaritas.hol.es");
         }
 
-        private void btnIngresar_Click(object sender, EventArgs e)
+        private async void btnIngresar_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtUsuario.Text) || (string.IsNullOrEmpty(txtClave.Text)) && txtUsuario.MaxLength <= 5 && txtClave.MaxLength <= 5)
             {
@@ -71,32 +81,76 @@ namespace GUI
                 error.SetError(txtClave, "");
                 objEUsuario.Usuario = txtUsuario.Text;
                 objEUsuario.Clave = txtClave.Text;
-                //Ejecutando el proceso
-                var est = objBLUsuario.Login(objEUsuario);
-                if (est.Rows.Count > 0)
-                {
-                    var perfil = est.Rows[0]["Perfil"].ToString();
 
-                    if (perfil.Contains("Empleado"))
+                // Mostrar progreso
+                pgbLogin.Visible = true;
+                pgbLogin.Value = 0;
+
+                // Deshabilitar controles mientras valida
+                btnIngresar.Enabled = false;
+                txtUsuario.Enabled = false;
+                txtClave.Enabled = false;
+
+                try
+                {
+                    // Progreso inicial hasta 50%
+                    for (int i = 0; i <= 50; i += 5)
                     {
-                        this.Hide();
-                        frmMarcacion frm = new frmMarcacion();
-                        MessageBox.Show("Indentificacion correcta", "Autentificacion", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        frm.Show();
+                        pgbLogin.Value = i;
+                        await Task.Delay(20);
                     }
-                    else if (perfil.Contains("Administrador"))
+
+                    // Ejecución de la autenticación
+                    var est = await Task.Run(() => objBLUsuario.Login(objEUsuario));
+
+                    // Completar hasta el 100%
+                    for (int i = 55; i <= 100; i += 5)
                     {
-                        _Usuario = txtUsuario.Text;
-                        MDIMenu frmMenu = new MDIMenu();
-                        MessageBox.Show("Indentificacion correcta", "Autentificacion", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        this.Hide();
-                        frmMenu.Show();
+                        pgbLogin.Value = i;
+                        await Task.Delay(20);
+                    }
+
+                    // Pequeña espera para que el usuario aprecie el 100%
+                    await Task.Delay(300);
+
+                    if (est.Rows.Count > 0)
+                    {
+                        var perfil = est.Rows[0]["Perfil"].ToString();
+
+                        if (perfil.Contains("Empleado"))
+                        {
+                            this.Hide();
+                            frmMarcacion frm = new frmMarcacion();
+                            MessageBox.Show("Identificación correcta", "Autentificación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            frm.Show();
+                        }
+                        else if (perfil.Contains("Administrador"))
+                        {
+                            _Usuario = txtUsuario.Text;
+                            MDIMenu frmMenu = new MDIMenu();
+                            MessageBox.Show("Identificación correcta", "Autentificación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            this.Hide();
+                            frmMenu.Show();
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Los datos de identificación son incorrectos... Verifique e intente de nuevo", "Autentificación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        txtUsuario.Focus();
+                        pgbLogin.Visible = false;
+                        pgbLogin.Value = 0;
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Los datos de identificacion son incorrectos... Verifique he intente de nuevo", "Autentificacion", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    txtUsuario.Focus();
+                    MessageBox.Show("Error al conectar con el servidor: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    pgbLogin.Visible = false;
+                }
+                finally
+                {
+                    btnIngresar.Enabled = true;
+                    txtUsuario.Enabled = true;
+                    txtClave.Enabled = true;
                 }
             }
         }

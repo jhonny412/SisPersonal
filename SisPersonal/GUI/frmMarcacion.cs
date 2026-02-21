@@ -30,7 +30,7 @@ namespace GUI
         {
             DateTime fechaActual = DateTime.Now;
             string fechaFormateada = fechaActual.ToString("dd/MM/yyyy");
-            objEEmp.dni = txtDni.Text;
+            objEEmp.DNI = txtDni.Text;
             objEEmp.Fecha = Convert.ToDateTime(fechaFormateada);
 
             var totalRegistro = objBLEmp.buscarPersona(objEEmp);
@@ -54,7 +54,7 @@ namespace GUI
             {
                 if (totalRegistro.Rows.Count > 0)
                 {
-                    txtObservacion.ReadOnly = false;
+                    ActualizarEstadoObservacion();
                     lblNombres.Text = totalRegistro.Rows[0]["Nombres y Apellidos"].ToString();
                     btnGrabar.Enabled = true;
                     chkEntrada.Enabled = true;
@@ -133,7 +133,7 @@ namespace GUI
                         if (chkEntrada.Checked && chkSalidaRefrigerio.Checked && chkRetornoRefrigerio.Checked && chkSalida.Checked)
                         {
                             MessageBox.Show("EL EMPLEADO YA TIENE LAS MARCACIONES COMPLETAS", "REGISTRO DE ASISTENCIAS", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            txtObservacion.ReadOnly = true;
+                            txtObservacion.Enabled = false;
                             txtDni.Enabled = true;
                             btnGrabar.Enabled = false; txtDni.Focus();
                             return;
@@ -147,12 +147,12 @@ namespace GUI
                     lblIdPersonal.Text = totalRegistro.Rows[0][0].ToString().Trim();
                     MessageBox.Show("POR FAVOR, REALICE SU MARCACIÓN", "MARCACIONES", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     //txtDni.Enabled = false;
-                    btnGrabar.Enabled = true; txtObservacion.ReadOnly = false;
+                    btnGrabar.Enabled = true; ActualizarEstadoObservacion();
 
                 }
                 else
                 {
-                    txtObservacion.ReadOnly = true;
+                    txtObservacion.Enabled = false;
                     MessageBox.Show("NO EXISTE EMPLEADO CON EL DNI INGRESADO", "Marcacion", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtDni.Enabled = true;
                     txtDni.Text = string.Empty;
@@ -166,7 +166,7 @@ namespace GUI
         private void frmMarcacion_Load(object sender, EventArgs e)
         {
             ApplyModernStyles();
-            txtObservacion.ReadOnly = true;
+            txtObservacion.Enabled = false;
             lblFecha.Text = DateTime.Now.ToShortDateString();
             btnGrabar.Enabled = false;
             chkEntrada.Enabled = false;
@@ -179,6 +179,43 @@ namespace GUI
         private void ApplyModernStyles()
         {
             UIStyles.ApplyModernStylesToForm(this);
+
+            // lblNombres — identificador de empleado (cian corporativo)
+            lblNombres.BackColor  = UIStyles.BrandCyan;
+            lblNombres.ForeColor  = UIStyles.White;
+            lblNombres.TextAlign  = System.Drawing.ContentAlignment.MiddleCenter;
+
+            // btnGrabar — acción principal, cian corporativo (se aplica después de UIStyles)
+            btnGrabar.BackgroundImage = null;
+            btnGrabar.Text            = "GRABAR";
+            btnGrabar.Font            = UIStyles.ButtonFont;
+            btnGrabar.BackColor       = UIStyles.BrandPink;
+            btnGrabar.ForeColor       = System.Drawing.Color.White;
+            btnGrabar.FlatStyle       = System.Windows.Forms.FlatStyle.Flat;
+            btnGrabar.FlatAppearance.BorderSize         = 0;
+            btnGrabar.FlatAppearance.MouseOverBackColor = UIStyles.BrandPinkDark;
+            btnGrabar.FlatAppearance.MouseDownBackColor = UIStyles.BrandPinkDark;
+            btnGrabar.Cursor          = System.Windows.Forms.Cursors.Hand;
+            btnGrabar.UseVisualStyleBackColor = false;
+
+            // Aplicar bordes redondeados globales
+            UIStyles.ApplyRoundedCorners(btnGrabar);
+
+            // Garantizar texto blanco aunque el tema de Windows intente sobreescribirlo
+            btnGrabar.Paint -= BtnGrabar_Paint;
+            btnGrabar.Paint += BtnGrabar_Paint;
+        }
+
+        private void BtnGrabar_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+        {
+            var btn = (System.Windows.Forms.Button)sender;
+            var textColor = System.Drawing.Color.White;
+            var sf = new System.Drawing.StringFormat
+            {
+                Alignment     = System.Drawing.StringAlignment.Center,
+                LineAlignment = System.Drawing.StringAlignment.Center
+            };
+            e.Graphics.DrawString(btn.Text, btn.Font, new System.Drawing.SolidBrush(textColor), btn.ClientRectangle, sf);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -357,6 +394,15 @@ namespace GUI
 
         }
 
+        private void ActualizarEstadoObservacion()
+        {
+            bool algunoMarcado = chkEntrada.Checked || chkSalidaRefrigerio.Checked
+                              || chkRetornoRefrigerio.Checked || chkSalida.Checked;
+            txtObservacion.Enabled = algunoMarcado;
+            if (!algunoMarcado)
+                txtObservacion.Text = string.Empty;
+        }
+
         private void chkEntrada_CheckedChanged(object sender, EventArgs e)
         {
             if (chkEntrada.Checked)
@@ -364,6 +410,7 @@ namespace GUI
                 HI = DateTime.Now.ToString("HH:mm:ss");
                 btnGrabar.Enabled = true;
             }
+            ActualizarEstadoObservacion();
         }
 
         private void chkSalidaRefrigerio_CheckedChanged(object sender, EventArgs e)
@@ -377,6 +424,7 @@ namespace GUI
             {
                 HSR = "";
             }
+            ActualizarEstadoObservacion();
         }
 
         private void chkRetornoRefrigerio_CheckedChanged(object sender, EventArgs e)
@@ -390,6 +438,7 @@ namespace GUI
             {
                 HIR = "";
             }
+            ActualizarEstadoObservacion();
         }
 
         private void chkSalida_CheckedChanged(object sender, EventArgs e)
@@ -399,6 +448,7 @@ namespace GUI
                 HS = DateTime.Now.ToString("HH:mm:ss");
                 btnGrabar.Enabled = true;
             }
+            ActualizarEstadoObservacion();
         }
     }
 }

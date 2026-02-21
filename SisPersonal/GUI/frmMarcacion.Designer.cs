@@ -81,7 +81,7 @@
             // 
             // lblNombres
             // 
-            this.lblNombres.BackColor = System.Drawing.Color.DarkRed;
+            this.lblNombres.BackColor = System.Drawing.Color.FromArgb(0, 102, 204);
             this.lblNombres.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNombres.ForeColor = System.Drawing.Color.White;
             this.lblNombres.Location = new System.Drawing.Point(250, 32);

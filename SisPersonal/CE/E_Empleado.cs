@@ -8,9 +8,11 @@ namespace CE
         public string Ape_Paterno { get; set; }
         public string Ape_Materno { get; set; }
         public string Nombres { get; set; }
-        public string dni { get; set; }
+        public string DNI { get; set; }
         public string Direccion { get; set; }
-        public string Foto { get; set; }
+        public byte[] Foto { get; set; }
         public Boolean Estado { get; set; }
+        public decimal SBasicoHora { get; set; }
+        public decimal SHorasExtraHora { get; set; }
     }
 }

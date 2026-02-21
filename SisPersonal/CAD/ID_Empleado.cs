@@ -7,5 +7,8 @@ namespace CAD
     {
         DataTable buscarPersona(E_Empleado objEmpleado);
         DataTable GetEmpleado();
+        int nuevoRegistro(E_Empleado objEmpleado);
+        int actualizarRegistro(E_Empleado objEmpleado);
+        int eliminarRegistro(string idEmpleado);
     }
 }

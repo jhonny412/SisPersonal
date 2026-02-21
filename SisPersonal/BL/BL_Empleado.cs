@@ -25,5 +25,20 @@ namespace BL
         {
             return objDEmp.GetEmpleado();
         }
+
+        public int nuevoRegistro(CE.E_Empleado objEmpleado)
+        {
+            return objDEmp.nuevoRegistro(objEmpleado);
+        }
+
+        public int actualizarRegistro(CE.E_Empleado objEmpleado)
+        {
+            return objDEmp.actualizarRegistro(objEmpleado);
+        }
+
+        public int eliminarRegistro(string idEmpleado)
+        {
+            return objDEmp.eliminarRegistro(idEmpleado);
+        }
     }
 }

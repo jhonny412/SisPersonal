@@ -1,426 +1,379 @@
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace GUI
 {
     /// <summary>
-    /// Clase estática que define los estilos UX/UI modernos para el sistema
-    /// Paleta de colores: Blanco y Azul con principios de Material Design
+    /// Clase estática que define los estilos UX/UI modernos para el sistema.
+    /// Paleta corporativa: Rosa #fe6393 y Cian #0cb9da
+    /// Principios: jerarquía visual, consistencia, accesibilidad, feedback visual.
     /// </summary>
     public static class UIStyles
     {
-        #region Colores Base
-        
-        // Colores principales - Paleta Azul y Blanco
-        public static readonly Color PrimaryBlue = Color.FromArgb(0, 122, 204);        // Azul principal
-        public static readonly Color SecondaryBlue = Color.FromArgb(64, 158, 255);     // Azul secundario
-        public static readonly Color LightBlue = Color.FromArgb(227, 242, 253);        // Azul claro
-        public static readonly Color DarkBlue = Color.FromArgb(0, 78, 146);            // Azul oscuro
-        
-        // Colores neutros
-        public static readonly Color White = Color.White;
-        public static readonly Color LightGray = Color.FromArgb(248, 249, 250);
-        public static readonly Color MediumGray = Color.FromArgb(108, 117, 125);
-        public static readonly Color DarkGray = Color.FromArgb(52, 58, 64);
-        
-        // Colores de estado
-        public static readonly Color SuccessGreen = Color.FromArgb(40, 167, 69);
-        public static readonly Color WarningOrange = Color.FromArgb(255, 193, 7);
-        public static readonly Color DangerRed = Color.FromArgb(220, 53, 69);
-        public static readonly Color InfoBlue = Color.FromArgb(23, 162, 184);
-        
+        #region Paleta Corporativa
+
+        // Colores primarios de la empresa
+        public static readonly Color BrandPink    = Color.FromArgb(254, 99,  147);   // #fe6393
+        public static readonly Color BrandCyan    = Color.FromArgb(12,  185, 218);   // #0cb9da
+
+        // Variantes de rosa
+        public static readonly Color BrandPinkDark  = Color.FromArgb(220, 70,  115);
+        public static readonly Color BrandPinkLight = Color.FromArgb(255, 180, 205);
+        public static readonly Color BrandPinkBg    = Color.FromArgb(255, 240, 246);  // fondo suave rosa
+
+        // Variantes de cian
+        public static readonly Color BrandCyanDark  = Color.FromArgb(8,   148, 175);
+        public static readonly Color BrandCyanLight = Color.FromArgb(150, 230, 245);
+        public static readonly Color BrandCyanBg    = Color.FromArgb(232, 250, 254);  // fondo suave cian
+
+        // Neutros
+        public static readonly Color White       = Color.White;
+        public static readonly Color Background  = Color.FromArgb(248, 250, 252);     // gris muy claro
+        public static readonly Color Surface     = Color.White;
+        public static readonly Color TextPrimary = Color.FromArgb(30,  30,  45);      // casi negro
+        public static readonly Color TextSecond  = Color.FromArgb(100, 110, 130);     // gris medio
+        public static readonly Color Border      = Color.FromArgb(220, 225, 235);
+
+        // Estado
+        public static readonly Color SuccessGreen = Color.FromArgb(39,  174, 96);
+        public static readonly Color DangerRed    = Color.FromArgb(220, 53,  69);
+        public static readonly Color WarningAmber = Color.FromArgb(255, 193, 7);
+
+        // Alias de compatibilidad (nombres anteriores → paleta corporativa)
+        public static readonly Color DarkGray  = Color.FromArgb(30,  30,  45);   // = TextPrimary
+        public static readonly Color LightGray = Color.FromArgb(248, 250, 252);  // = Background
+        public static readonly Color LightBlue = Color.FromArgb(232, 250, 254);  // = BrandCyanBg
+
         #endregion
 
-        #region Fuentes
-        
-        public static readonly Font TitleFont = new Font("Segoe UI", 18F, FontStyle.Bold);
-        public static readonly Font SubtitleFont = new Font("Segoe UI", 14F, FontStyle.Regular);
-        public static readonly Font HeaderFont = new Font("Segoe UI", 12F, FontStyle.Bold);
-        public static readonly Font BodyFont = new Font("Segoe UI", 9F, FontStyle.Regular);
-        public static readonly Font SmallFont = new Font("Segoe UI", 8F, FontStyle.Regular);
-        public static readonly Font ButtonFont = new Font("Segoe UI", 9F, FontStyle.Regular);
-        
+        #region Fuentes (Segoe UI — fuente nativa de Windows moderna)
+
+        public static readonly Font TitleFont    = new Font("Segoe UI", 16F, FontStyle.Bold);
+        public static readonly Font SubtitleFont = new Font("Segoe UI", 13F, FontStyle.Bold);
+        public static readonly Font HeaderFont   = new Font("Segoe UI", 10F, FontStyle.Bold);
+        public static readonly Font BodyFont     = new Font("Segoe UI",  9F, FontStyle.Regular);
+        public static readonly Font SmallFont    = new Font("Segoe UI",  8F, FontStyle.Regular);
+        public static readonly Font ButtonFont   = new Font("Segoe UI",  9F, FontStyle.Bold);
+        public static readonly Font InputFont    = new Font("Segoe UI",  9F, FontStyle.Regular);
+
         #endregion
 
-        #region Métodos de Aplicación de Estilos
+        #region Estilos por tipo de control
 
-        /// <summary>
-        /// Aplica estilo moderno a un formulario principal
-        /// </summary>
+        /// <summary>Aplica bordes redondeados a un control mediante Region.</summary>
+        public static void ApplyRoundedCorners(Control ctrl, int radius = 15)
+        {
+            ctrl.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, ctrl.Width, ctrl.Height, radius, radius));
+            ctrl.Resize += (s, e) =>
+            {
+                ctrl.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, ctrl.Width, ctrl.Height, radius, radius));
+            };
+        }
+
+        [System.Runtime.InteropServices.DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nWidthEllipse, int nHeightEllipse);
+
+        /// <summary>Estilo base del formulario.</summary>
         public static void ApplyFormStyle(Form form)
         {
-            form.BackColor = White;
-            form.Font = BodyFont;
-            form.ForeColor = DarkGray;
+            form.BackColor = Background;
+            form.Font      = BodyFont;
+            form.ForeColor = TextPrimary;
         }
 
-        /// <summary>
-        /// Aplica estilo a botones primarios (acciones principales)
-        /// </summary>
-        public static void ApplyPrimaryButtonStyle(Button button)
+        /// <summary>Botón primario — acción principal (Cian corporativo).</summary>
+        public static void ApplyPrimaryButtonStyle(Button btn)
         {
-            button.BackColor = PrimaryBlue;
-            button.ForeColor = White;
-            button.FlatStyle = FlatStyle.Flat;
-            button.FlatAppearance.BorderSize = 0;
-            button.Font = ButtonFont;
-            button.Cursor = Cursors.Hand;
-            button.Height = 35;
-            button.UseVisualStyleBackColor = false;
-            
-            // Efectos hover
-            button.MouseEnter += (s, e) => button.BackColor = DarkBlue;
-            button.MouseLeave += (s, e) => button.BackColor = PrimaryBlue;
+            btn.BackColor              = BrandCyan;
+            btn.ForeColor              = White;
+            btn.FlatStyle              = FlatStyle.Flat;
+            btn.FlatAppearance.BorderSize = 0;
+            btn.Font                   = ButtonFont;
+            btn.Cursor                 = Cursors.Hand;
+            btn.UseVisualStyleBackColor = false;
+
+            ApplyRoundedCorners(btn);
+
+            btn.MouseEnter += (s, e) => btn.BackColor = BrandCyanDark;
+            btn.MouseLeave += (s, e) => btn.BackColor = BrandCyan;
         }
 
-        /// <summary>
-        /// Aplica estilo a botones secundarios
-        /// </summary>
-        public static void ApplySecondaryButtonStyle(Button button)
+        /// <summary>Botón de acción secundaria (Rosa corporativo).</summary>
+        public static void ApplySecondaryButtonStyle(Button btn)
         {
-            button.BackColor = LightGray;
-            button.ForeColor = DarkGray;
-            button.FlatStyle = FlatStyle.Flat;
-            button.FlatAppearance.BorderSize = 1;
-            button.FlatAppearance.BorderColor = MediumGray;
-            button.Font = ButtonFont;
-            button.Cursor = Cursors.Hand;
-            button.Height = 35;
-            button.UseVisualStyleBackColor = false;
-            
-            // Efectos hover
-            button.MouseEnter += (s, e) => {
-                button.BackColor = Color.FromArgb(233, 236, 239);
-                button.FlatAppearance.BorderColor = PrimaryBlue;
-            };
-            button.MouseLeave += (s, e) => {
-                button.BackColor = LightGray;
-                button.FlatAppearance.BorderColor = MediumGray;
-            };
+            btn.BackColor              = BrandPink;
+            btn.ForeColor              = White;
+            btn.FlatStyle              = FlatStyle.Flat;
+            btn.FlatAppearance.BorderSize = 0;
+            btn.Font                   = ButtonFont;
+            btn.Cursor                 = Cursors.Hand;
+            btn.UseVisualStyleBackColor = false;
+
+            ApplyRoundedCorners(btn);
+
+            btn.MouseEnter += (s, e) => btn.BackColor = BrandPinkDark;
+            btn.MouseLeave += (s, e) => btn.BackColor = BrandPink;
         }
 
-        /// <summary>
-        /// Aplica estilo a botones de peligro (eliminar, cancelar)
-        /// </summary>
-        public static void ApplyDangerButtonStyle(Button button)
+        /// <summary>Botón de peligro — eliminar / cancelar.</summary>
+        public static void ApplyDangerButtonStyle(Button btn)
         {
-            button.BackColor = DangerRed;
-            button.ForeColor = White;
-            button.FlatStyle = FlatStyle.Flat;
-            button.FlatAppearance.BorderSize = 0;
-            button.Font = ButtonFont;
-            button.Cursor = Cursors.Hand;
-            button.Height = 35;
-            button.UseVisualStyleBackColor = false;
-            
-            // Efectos hover
-            button.MouseEnter += (s, e) => button.BackColor = Color.FromArgb(200, 35, 51);
-            button.MouseLeave += (s, e) => button.BackColor = DangerRed;
+            btn.BackColor              = DangerRed;
+            btn.ForeColor              = White;
+            btn.FlatStyle              = FlatStyle.Flat;
+            btn.FlatAppearance.BorderSize = 0;
+            btn.Font                   = ButtonFont;
+            btn.Cursor                 = Cursors.Hand;
+            btn.UseVisualStyleBackColor = false;
+
+            ApplyRoundedCorners(btn);
+
+            btn.MouseEnter += (s, e) => btn.BackColor = Color.FromArgb(190, 30, 50);
+            btn.MouseLeave += (s, e) => btn.BackColor = DangerRed;
         }
 
-        /// <summary>
-        /// Aplica estilo moderno a TextBox
-        /// </summary>
-        public static void ApplyTextBoxStyle(TextBox textBox)
+        /// <summary>Botón outline (neutro, acciones complementarias).</summary>
+        public static void ApplyOutlineButtonStyle(Button btn)
         {
-            textBox.Font = BodyFont;
-            textBox.BorderStyle = BorderStyle.FixedSingle;
-            textBox.BackColor = White;
-            textBox.ForeColor = DarkGray;
-            textBox.Height = 30;
-            
-            // Efectos focus
-            textBox.Enter += (s, e) => {
-                textBox.BackColor = LightBlue;
-            };
-            textBox.Leave += (s, e) => {
-                textBox.BackColor = White;
-            };
+            btn.BackColor                        = White;
+            btn.ForeColor                        = BrandCyan;
+            btn.FlatStyle                        = FlatStyle.Flat;
+            btn.FlatAppearance.BorderSize        = 2;
+            btn.FlatAppearance.BorderColor       = BrandCyan;
+            btn.FlatAppearance.MouseOverBackColor = BrandCyanBg;
+            btn.Font                             = ButtonFont;
+            btn.Cursor                           = Cursors.Hand;
+            btn.UseVisualStyleBackColor          = false;
+
+            ApplyRoundedCorners(btn);
         }
 
-        /// <summary>
-        /// Aplica estilo a ComboBox
-        /// </summary>
-        public static void ApplyComboBoxStyle(ComboBox comboBox)
+        /// <summary>TextBox moderno con feedback de foco.</summary>
+        public static void ApplyTextBoxStyle(TextBox tb)
         {
-            comboBox.Font = BodyFont;
-            comboBox.BackColor = White;
-            comboBox.ForeColor = DarkGray;
-            comboBox.FlatStyle = FlatStyle.Flat;
-            comboBox.Height = 30;
+            tb.Font        = InputFont;
+            tb.BackColor   = White;
+            tb.ForeColor   = TextPrimary;
+            tb.BorderStyle = BorderStyle.FixedSingle;
+
+            tb.Enter += (s, e) => { tb.BackColor = BrandCyanBg; };
+            tb.Leave += (s, e) => { tb.BackColor = White; };
         }
 
-        /// <summary>
-        /// Aplica estilo a Labels de título
-        /// </summary>
-        public static void ApplyTitleLabelStyle(Label label)
+        /// <summary>ComboBox moderno.</summary>
+        public static void ApplyComboBoxStyle(ComboBox cb)
         {
-            label.Font = TitleFont;
-            label.ForeColor = PrimaryBlue;
-            label.BackColor = Color.Transparent;
+            cb.Font      = InputFont;
+            cb.BackColor = White;
+            cb.ForeColor = TextPrimary;
+            cb.FlatStyle = FlatStyle.Flat;
         }
 
-        /// <summary>
-        /// Aplica estilo a Labels de subtítulo
-        /// </summary>
-        public static void ApplySubtitleLabelStyle(Label label)
+        /// <summary>Label de título grande.</summary>
+        public static void ApplyTitleLabelStyle(Label lbl)
         {
-            label.Font = SubtitleFont;
-            label.ForeColor = DarkGray;
-            label.BackColor = Color.Transparent;
+            lbl.Font      = TitleFont;
+            lbl.ForeColor = BrandCyan;
+            lbl.BackColor = Color.Transparent;
         }
 
-        /// <summary>
-        /// Aplica estilo a Labels normales
-        /// </summary>
-        public static void ApplyLabelStyle(Label label)
+        /// <summary>Label de subtítulo.</summary>
+        public static void ApplySubtitleLabelStyle(Label lbl)
         {
-            label.Font = BodyFont;
-            label.ForeColor = DarkGray;
-            label.BackColor = Color.Transparent;
+            lbl.Font      = SubtitleFont;
+            lbl.ForeColor = BrandPink;
+            lbl.BackColor = Color.Transparent;
         }
 
-        /// <summary>
-        /// Aplica estilo a GroupBox
-        /// </summary>
-        public static void ApplyGroupBoxStyle(GroupBox groupBox)
+        /// <summary>Label normal.</summary>
+        public static void ApplyLabelStyle(Label lbl)
         {
-            groupBox.Font = HeaderFont;
-            groupBox.ForeColor = PrimaryBlue;
-            groupBox.BackColor = Color.Transparent;
-            groupBox.FlatStyle = FlatStyle.Flat;
+            lbl.Font      = BodyFont;
+            lbl.ForeColor = TextPrimary;
+            lbl.BackColor = Color.Transparent;
         }
 
-        /// <summary>
-        /// Aplica estilo moderno a DataGridView
-        /// </summary>
+        /// <summary>GroupBox con acento cian en el título.</summary>
+        public static void ApplyGroupBoxStyle(GroupBox gb)
+        {
+            gb.Font      = HeaderFont;
+            gb.ForeColor = BrandCyan;
+            gb.BackColor = Color.Transparent;
+            gb.FlatStyle = FlatStyle.Flat;
+        }
+
+        /// <summary>DataGridView moderno con cabecera cian.</summary>
         public static void ApplyDataGridViewStyle(DataGridView dgv)
         {
-            // Colores generales
             dgv.BackgroundColor = White;
-            dgv.GridColor = Color.FromArgb(222, 226, 230);
-            dgv.BorderStyle = BorderStyle.None;
-            
-            // Estilo de encabezados
-            dgv.EnableHeadersVisualStyles = false;
-            dgv.ColumnHeadersDefaultCellStyle.BackColor = PrimaryBlue;
-            dgv.ColumnHeadersDefaultCellStyle.ForeColor = White;
-            dgv.ColumnHeadersDefaultCellStyle.Font = HeaderFont;
-            dgv.ColumnHeadersDefaultCellStyle.SelectionBackColor = DarkBlue;
-            dgv.ColumnHeadersHeight = 40;
-            
-            // Estilo de celdas
-            dgv.DefaultCellStyle.BackColor = White;
-            dgv.DefaultCellStyle.ForeColor = DarkGray;
-            dgv.DefaultCellStyle.Font = BodyFont;
-            dgv.DefaultCellStyle.SelectionBackColor = LightBlue;
-            dgv.DefaultCellStyle.SelectionForeColor = DarkGray;
-            dgv.RowTemplate.Height = 35;
-            
-            // Estilo de filas alternas
-            dgv.AlternatingRowsDefaultCellStyle.BackColor = LightGray;
-            dgv.AlternatingRowsDefaultCellStyle.ForeColor = DarkGray;
-            
-            // Configuraciones adicionales
-            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv.MultiSelect = false;
-            dgv.AllowUserToAddRows = false;
+            dgv.GridColor       = Border;
+            dgv.BorderStyle     = BorderStyle.None;
+
+            // Cabecera
+            dgv.EnableHeadersVisualStyles                        = false;
+            dgv.ColumnHeadersDefaultCellStyle.BackColor         = BrandCyan;
+            dgv.ColumnHeadersDefaultCellStyle.ForeColor         = White;
+            dgv.ColumnHeadersDefaultCellStyle.Font              = HeaderFont;
+            dgv.ColumnHeadersDefaultCellStyle.SelectionBackColor = BrandCyanDark;
+            dgv.ColumnHeadersDefaultCellStyle.Alignment         = DataGridViewContentAlignment.MiddleCenter;
+            dgv.ColumnHeadersHeight                              = 38;
+
+            // Celdas
+            dgv.DefaultCellStyle.BackColor          = White;
+            dgv.DefaultCellStyle.ForeColor          = TextPrimary;
+            dgv.DefaultCellStyle.Font               = BodyFont;
+            dgv.DefaultCellStyle.SelectionBackColor = BrandCyanBg;
+            dgv.DefaultCellStyle.SelectionForeColor = TextPrimary;
+            dgv.RowTemplate.Height                  = 32;
+
+            // Filas alternas — rosa muy suave
+            dgv.AlternatingRowsDefaultCellStyle.BackColor = BrandPinkBg;
+            dgv.AlternatingRowsDefaultCellStyle.ForeColor = TextPrimary;
+
+            dgv.SelectionMode    = DataGridViewSelectionMode.FullRowSelect;
+            dgv.MultiSelect      = false;
+            dgv.AllowUserToAddRows    = false;
             dgv.AllowUserToDeleteRows = false;
-            dgv.ReadOnly = true;
+            dgv.ReadOnly         = true;
         }
 
-        /// <summary>
-        /// Aplica estilo a ToolStrip/MenuStrip
-        /// </summary>
-        public static void ApplyToolStripStyle(ToolStrip toolStrip)
+        /// <summary>CheckBox moderno.</summary>
+        public static void ApplyCheckBoxStyle(CheckBox cb)
         {
-            toolStrip.BackColor = White;
-            toolStrip.ForeColor = DarkGray;
-            toolStrip.Font = BodyFont;
-            toolStrip.Renderer = new ModernToolStripRenderer();
+            cb.Font      = BodyFont;
+            cb.ForeColor = TextPrimary;
+            cb.BackColor = Color.Transparent;
+            cb.Cursor    = Cursors.Hand;
         }
 
-        /// <summary>
-        /// Aplica estilo a Panel contenedor
-        /// </summary>
+        /// <summary>DateTimePicker moderno.</summary>
+        public static void ApplyDateTimePickerStyle(DateTimePicker dtp)
+        {
+            dtp.Font      = InputFont;
+            dtp.BackColor = White;
+            dtp.ForeColor = TextPrimary;
+        }
+
+        /// <summary>NumericUpDown moderno.</summary>
+        public static void ApplyNumericUpDownStyle(NumericUpDown num)
+        {
+            num.Font        = InputFont;
+            num.BackColor   = White;
+            num.ForeColor   = TextPrimary;
+            num.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        /// <summary>Panel contenedor.</summary>
         public static void ApplyPanelStyle(Panel panel)
         {
-            panel.BackColor = White;
-            panel.BorderStyle = BorderStyle.FixedSingle;
+            panel.BackColor   = White;
+            panel.BorderStyle = BorderStyle.None;
         }
 
-        /// <summary>
-        /// Aplica padding y márgenes consistentes a un control
-        /// </summary>
-        public static void ApplySpacing(Control control, int padding = 10)
+        /// <summary>ToolStrip / MenuStrip moderno.</summary>
+        public static void ApplyToolStripStyle(ToolStrip ts)
         {
-            control.Padding = new Padding(padding);
-            control.Margin = new Padding(padding / 2);
+            ts.BackColor = White;
+            ts.ForeColor = TextPrimary;
+            ts.Font      = BodyFont;
+            ts.Renderer  = new ModernToolStripRenderer();
         }
 
+        #endregion
+
+        #region Aplicación masiva a formulario
+
         /// <summary>
-        /// Aplica estilos modernos automáticamente a todos los controles de un formulario
+        /// Aplica la paleta corporativa a todos los controles del formulario de forma recursiva.
         /// </summary>
         public static void ApplyModernStylesToForm(Form form)
         {
-            // Aplicar estilo base al formulario
             ApplyFormStyle(form);
-            
-            // Aplicar estilos a todos los controles recursivamente
             ApplyStylesToAllControls(form);
         }
 
-        /// <summary>
-        /// Aplica estilos a todos los controles de manera recursiva
-        /// </summary>
         private static void ApplyStylesToAllControls(Control parent)
         {
-            foreach (Control control in parent.Controls)
+            foreach (Control ctrl in parent.Controls)
             {
-                switch (control)
+                switch (ctrl)
                 {
-                    case GroupBox groupBox:
-                        ApplyGroupBoxStyle(groupBox);
-                        break;
-                    case TextBox textBox:
-                        ApplyTextBoxStyle(textBox);
-                        break;
-                    case ComboBox comboBox:
-                        ApplyComboBoxStyle(comboBox);
-                        break;
-                    case Button button:
-                        ApplyButtonStyleByName(button);
-                        break;
-                    case Label label:
-                        ApplyLabelStyleBySize(label);
-                        break;
-                    case DataGridView dgv:
-                        ApplyDataGridViewStyle(dgv);
-                        break;
-                    case Panel panel:
-                        ApplyPanelStyle(panel);
-                        break;
-                    case ToolStrip toolStrip:
-                        ApplyToolStripStyle(toolStrip);
-                        break;
-                    case CheckBox checkBox:
-                        ApplyCheckBoxStyle(checkBox);
-                        break;
-                    case DateTimePicker dtp:
-                        ApplyDateTimePickerStyle(dtp);
-                        break;
-                    case NumericUpDown numeric:
-                        ApplyNumericUpDownStyle(numeric);
-                        break;
+                    case GroupBox gb:   ApplyGroupBoxStyle(gb);   break;
+                    case TextBox  tb:   ApplyTextBoxStyle(tb);    break;
+                    case ComboBox cb:   ApplyComboBoxStyle(cb);   break;
+                    case Button   btn:  ApplyButtonStyleByName(btn); break;
+                    case Label    lbl:  ApplyLabelStyleBySize(lbl);  break;
+                    case DataGridView dgv: ApplyDataGridViewStyle(dgv); break;
+                    case Panel    pnl:  ApplyPanelStyle(pnl);    break;
+                    case ToolStrip ts:  ApplyToolStripStyle(ts); break;
+                    case CheckBox cb2:  ApplyCheckBoxStyle(cb2); break;
+                    case DateTimePicker dtp: ApplyDateTimePickerStyle(dtp); break;
+                    case NumericUpDown  num: ApplyNumericUpDownStyle(num);  break;
                 }
-                
-                // Aplicar recursivamente a controles hijos
-                if (control.HasChildren)
-                {
-                    ApplyStylesToAllControls(control);
-                }
+
+                if (ctrl.HasChildren)
+                    ApplyStylesToAllControls(ctrl);
             }
         }
 
-        /// <summary>
-        /// Aplica estilo a botones según su nombre
-        /// </summary>
-        private static void ApplyButtonStyleByName(Button button)
+        private static void ApplyButtonStyleByName(Button btn)
         {
-            string name = button.Name.ToLower();
-            
-            if (name.Contains("grabar") || name.Contains("guardar") || name.Contains("ingresar") || 
-                name.Contains("buscar") || name.Contains("generar") || name.Contains("exportar") ||
-                name.Contains("nuevo") || name.Contains("agregar"))
+            string n = btn.Name.ToLower();
+
+            if (n.Contains("grabar") || n.Contains("guardar") || n.Contains("ingresar") ||
+                n.Contains("buscar") || n.Contains("generar") || n.Contains("exportar") ||
+                n.Contains("nuevo")  || n.Contains("agregar") || n.Contains("aceptar"))
             {
-                ApplyPrimaryButtonStyle(button);
+                ApplyPrimaryButtonStyle(btn);   // Cian — acción confirmación
             }
-            else if (name.Contains("eliminar") || name.Contains("borrar") || name.Contains("delete"))
+            else if (n.Contains("eliminar") || n.Contains("borrar") || n.Contains("delete") ||
+                     n.Contains("cancelar"))
             {
-                ApplyDangerButtonStyle(button);
+                ApplyDangerButtonStyle(btn);    // Rojo — acción destructiva
+            }
+            else if (n.Contains("salir") || n.Contains("cerrar") || n.Contains("volver"))
+            {
+                ApplyOutlineButtonStyle(btn);   // Outline — navegación
             }
             else
             {
-                ApplySecondaryButtonStyle(button);
+                ApplySecondaryButtonStyle(btn); // Rosa — acción secundaria
             }
         }
 
-        /// <summary>
-        /// Aplica estilo a labels según su tamaño de fuente
-        /// </summary>
-        private static void ApplyLabelStyleBySize(Label label)
+        private static void ApplyLabelStyleBySize(Label lbl)
         {
-            if (label.Font.Size >= 16)
-            {
-                ApplyTitleLabelStyle(label);
-            }
-            else if (label.Font.Size >= 12)
-            {
-                ApplySubtitleLabelStyle(label);
-            }
-            else
-            {
-                ApplyLabelStyle(label);
-            }
-        }
-
-        /// <summary>
-        /// Aplica estilo a CheckBox
-        /// </summary>
-        public static void ApplyCheckBoxStyle(CheckBox checkBox)
-        {
-            checkBox.Font = BodyFont;
-            checkBox.ForeColor = DarkGray;
-            checkBox.BackColor = Color.Transparent;
-        }
-
-        /// <summary>
-        /// Aplica estilo a DateTimePicker
-        /// </summary>
-        public static void ApplyDateTimePickerStyle(DateTimePicker dtp)
-        {
-            dtp.Font = BodyFont;
-            dtp.BackColor = White;
-            dtp.ForeColor = DarkGray;
-        }
-
-        /// <summary>
-        /// Aplica estilo a NumericUpDown
-        /// </summary>
-        public static void ApplyNumericUpDownStyle(NumericUpDown numeric)
-        {
-            numeric.Font = BodyFont;
-            numeric.BackColor = White;
-            numeric.ForeColor = DarkGray;
-            numeric.BorderStyle = BorderStyle.FixedSingle;
+            if      (lbl.Font.Size >= 16) ApplyTitleLabelStyle(lbl);
+            else if (lbl.Font.Size >= 12) ApplySubtitleLabelStyle(lbl);
+            else                          ApplyLabelStyle(lbl);
         }
 
         #endregion
     }
 
-    /// <summary>
-    /// Renderer personalizado para ToolStrip con estilo moderno
-    /// </summary>
+    /// <summary>Renderer personalizado con la paleta corporativa.</summary>
     public class ModernToolStripRenderer : ToolStripProfessionalRenderer
     {
         protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
         {
-            using (SolidBrush brush = new SolidBrush(UIStyles.White))
-            {
+            using (var brush = new SolidBrush(UIStyles.White))
                 e.Graphics.FillRectangle(brush, e.AffectedBounds);
-            }
         }
 
         protected override void OnRenderButtonBackground(ToolStripItemRenderEventArgs e)
         {
             if (e.Item.Selected || e.Item.Pressed)
-            {
-                using (SolidBrush brush = new SolidBrush(UIStyles.LightBlue))
-                {
+                using (var brush = new SolidBrush(UIStyles.BrandCyanBg))
                     e.Graphics.FillRectangle(brush, new Rectangle(Point.Empty, e.Item.Size));
-                }
-            }
+        }
+
+        protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
+        {
+            if (e.Item.Selected)
+                using (var brush = new SolidBrush(UIStyles.BrandCyanBg))
+                    e.Graphics.FillRectangle(brush, new Rectangle(Point.Empty, e.Item.Size));
         }
     }
 }
