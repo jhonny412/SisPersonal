@@ -1,19 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CAD;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CAD;
 
 namespace BL
 {
     public class BL_Empleado
     {
-        D_Empleado objDEmp = new D_Empleado();
+        private readonly ID_Empleado objDEmp;
+
+        // Constructor original para mantener compatibilidad
+        public BL_Empleado() : this(new D_Empleado()) { }
+
+        // Constructor para inyección de dependencias (para pruebas)
+        public BL_Empleado(ID_Empleado dEmpleado)
+        {
+            objDEmp = dEmpleado;
+        }
+
         public DataTable buscarPersona(CE.E_Empleado objEmpleado)
         {
             return objDEmp.buscarPersona(objEmpleado);
+        }
+        
+        public DataTable GetEmpleado()
+        {
+            return objDEmp.GetEmpleado();
         }
     }
 }

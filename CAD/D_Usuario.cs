@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CE;
+﻿using CE;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 
 namespace CAD
 {
-    public class D_Usuario
+    public class D_Usuario : ID_Usuario
     {
         Conexion objCon = new Conexion();
         SqlConnection cnx;
         E_Usuario objUsuario = new E_Usuario();
 
         //Codigo de Login
-        public DataTable Login(CE.E_Usuario objUsuario)
+        public virtual DataTable Login(CE.E_Usuario objUsuario)
         {
             cnx = objCon.getConecta();
             try
@@ -36,12 +32,12 @@ namespace CAD
                 cmd.ExecuteNonQuery();
                 return dt;
             }
-            catch (Exception ex)
+            catch (Exception ex2)
             {
-                throw new Exception(ex.Message);
+                throw new Exception(ex2.Message);
             }
         }
-        public void nuevoRegistro(CE.E_Usuario objUsuario,string acccion)
+        public virtual void nuevoRegistro(CE.E_Usuario objUsuario, string acccion)
         {
             cnx = objCon.getConecta();
             cnx.Open();
@@ -65,7 +61,7 @@ namespace CAD
             }
             cnx.Close();
         }
-        public void eliminarRegistro(CE.E_Usuario objUsuario, string acccion)
+        public virtual void eliminarRegistro(CE.E_Usuario objUsuario, string acccion)
         {
             cnx = objCon.getConecta();
             cnx.Open();
@@ -88,7 +84,7 @@ namespace CAD
             }
             cnx.Close();
         }
-        public void actualizarRegistro(CE.E_Usuario objUsuario, string acccion)
+        public virtual void actualizarRegistro(CE.E_Usuario objUsuario, string acccion)
         {
             cnx = objCon.getConecta();
             cnx.Open();
@@ -112,7 +108,7 @@ namespace CAD
             }
             cnx.Close();
         }
-        public DataTable listarUsuarios()
+        public virtual DataTable listarUsuarios()
         {
             cnx = objCon.getConecta();
             SqlDataAdapter da = new SqlDataAdapter("select * from vUsuarios", cnx);
@@ -120,15 +116,15 @@ namespace CAD
             da.Fill(dt);
             return dt;
         }
-        public DataTable listarTodosUsuarios()
+        public virtual DataTable listarTodosUsuarios()
         {
             cnx = objCon.getConecta();
-            SqlDataAdapter da = new SqlDataAdapter("select * from vTodosUsuarios",cnx);
+            SqlDataAdapter da = new SqlDataAdapter("select * from vTodosUsuarios", cnx);
             DataTable dt = new DataTable();
             da.Fill(dt);
             return dt;
         }
-        public int generaCodigo()
+        public virtual int generaCodigo()
         {
             cnx = objCon.getConecta();
             cnx.Open();

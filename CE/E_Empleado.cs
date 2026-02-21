@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CE
 {
-    public class E_Empleado
+    public class E_Empleado:E_Marcaciones
     {
         public string ID_Empleado { get; set; }
         public string Ape_Paterno { get; set; }

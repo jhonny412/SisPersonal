@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using BL;
+﻿using BL;
 using CE;
+using System;
+using System.Windows.Forms;
 
 namespace GUI
 {
-    public partial class frmGestionUsuario: Form
+    public partial class frmGestionUsuario : Form
     {
         BL_Usuario objBLUsua = new BL_Usuario();
         E_Usuario objCEUsua = new E_Usuario();
@@ -23,9 +16,15 @@ namespace GUI
 
         private void frmGestionUsuario_Load(object sender, EventArgs e)
         {
+            ApplyModernStyles();
             llenarUsuarios();
             ctrlCRUD(true, false);
-            habilitarTexto(true,false);
+            habilitarTexto(true, false);
+        }
+
+        private void ApplyModernStyles()
+        {
+            UIStyles.ApplyModernStylesToForm(this);
         }
 
         private void habilitarTexto(Boolean ARG1, Boolean ARG2)
@@ -62,7 +61,16 @@ namespace GUI
             txtCodigo.Text = dgvUsuarios.CurrentRow.Cells[0].Value.ToString();
             txtUsuario.Text = dgvUsuarios.CurrentRow.Cells[1].Value.ToString();
             txtClave.Text = dgvUsuarios.CurrentRow.Cells[2].Value.ToString();
-            cboEstado.Text = dgvUsuarios.CurrentRow.Cells[3].Value.ToString();
+            string estado = dgvUsuarios.CurrentRow.Cells[3].Value.ToString();
+            if (estado == "True")
+            {
+                cboEstado.Text = "Activo";
+            }
+            else
+            {
+                cboEstado.Text = "Inactivo";
+            }
+            //cboEstado.Text = dgvUsuarios.CurrentRow.Cells[3].Value.ToString();
             cboPerfil.Text = dgvUsuarios.CurrentRow.Cells[4].Value.ToString();
         }
 
@@ -81,7 +89,7 @@ namespace GUI
 
         private void btnGrabar_Click(object sender, EventArgs e)
         {
-            if (btnGrabar.Tag=="Insertar")
+            if (Convert.ToString(btnGrabar.Tag) == "Insertar")
             {
                 objCEUsua.IdUsuario = Convert.ToInt32(txtCodigo.Text);
                 objCEUsua.Usuario = txtUsuario.Text;
@@ -172,7 +180,7 @@ namespace GUI
             {
                 objCEUsua.Perfil = "Empleado";
             }
-            if (MessageBox.Show("Esta seguro que desea eliminar el Usuario?","Cuidado",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes)
+            if (MessageBox.Show("Esta seguro que desea eliminar el Usuario?", "Cuidado", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 objBLUsua.eliminarRegistro(objCEUsua, "ELIMINAR");
                 MessageBox.Show("Registro eliminado correctamente...", "Gestion de Usuarios", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -186,10 +194,7 @@ namespace GUI
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            frmRepUsuarios frm = new frmRepUsuarios();
-            {
-                frm.ShowDialog();
-            }
+
         }
 
         private void chkTodos_CheckedChanged(object sender, EventArgs e)
@@ -228,6 +233,15 @@ namespace GUI
                 {
                     e.Value = new string('*', e.Value.ToString().Length);
                 }
+            }
+        }
+
+        private void btnSalir_Click(object sender, EventArgs e)
+        {
+            var msg = MessageBox.Show("ESTA SEGURO QUE DESEA SALIR DEL FORMULARIO?", "CUIDADO", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (msg == DialogResult.Yes)
+            {
+                this.Close();
             }
         }
     }

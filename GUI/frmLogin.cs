@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using BL;
 using CE;
-using BL;
+using System;
+using System.Windows.Forms;
 
 namespace GUI
 {
     public partial class frmLogin : Form
     {
+
+        public string _Usuario;
+        public string _Clave;
         E_Usuario objEUsuario = new E_Usuario();
         BL_Usuario objBLUsuario = new BL_Usuario();
         public frmLogin()
@@ -23,7 +19,37 @@ namespace GUI
 
         private void frmLogin_Load(object sender, EventArgs e)
         {
+            ApplyModernStyles();
+        }
 
+        private void ApplyModernStyles()
+        {
+            // Aplicar estilos modernos al formulario
+            UIStyles.ApplyFormStyle(this);
+            
+            // Aplicar estilos a los controles de texto
+            UIStyles.ApplyTextBoxStyle(txtUsuario);
+            UIStyles.ApplyTextBoxStyle(txtClave);
+            
+            // Aplicar estilos a los botones
+            UIStyles.ApplyPrimaryButtonStyle(btnIngresar);
+            UIStyles.ApplySecondaryButtonStyle(btnCancelar);
+            
+            // Aplicar estilos a las etiquetas
+            UIStyles.ApplyTitleLabelStyle(label1);
+            UIStyles.ApplyLabelStyle(label3);
+            UIStyles.ApplyLabelStyle(label4);
+            UIStyles.ApplyLabelStyle(label2);
+            
+            // Aplicar estilos a los paneles
+            UIStyles.ApplyPanelStyle(panelLogin);
+            
+            // Configurar efectos de hover para los TextBox
+            txtUsuario.Enter += (s, e) => txtUsuario.BackColor = UIStyles.LightBlue;
+            txtUsuario.Leave += (s, e) => txtUsuario.BackColor = UIStyles.White;
+            
+            txtClave.Enter += (s, e) => txtClave.BackColor = UIStyles.LightBlue;
+            txtClave.Leave += (s, e) => txtClave.BackColor = UIStyles.White;
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -33,7 +59,7 @@ namespace GUI
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtUsuario.Text) || (string.IsNullOrEmpty(txtClave.Text)) && txtUsuario.MaxLength<=5 && txtClave.MaxLength<=5)
+            if (string.IsNullOrEmpty(txtUsuario.Text) || (string.IsNullOrEmpty(txtClave.Text)) && txtUsuario.MaxLength <= 5 && txtClave.MaxLength <= 5)
             {
                 error.SetError(txtUsuario, "Ingrese usuario para su identificacion");
                 error.SetError(txtClave, "Ingrese Clave de acceso para su identificacion");
@@ -50,7 +76,7 @@ namespace GUI
                 if (est.Rows.Count > 0)
                 {
                     var perfil = est.Rows[0]["Perfil"].ToString();
-                    //MessageBox.Show("Bienvenido " + txtUsuario.Text, "Autentificacion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                     if (perfil.Contains("Empleado"))
                     {
                         this.Hide();
@@ -60,9 +86,10 @@ namespace GUI
                     }
                     else if (perfil.Contains("Administrador"))
                     {
+                        _Usuario = txtUsuario.Text;
                         MDIMenu frmMenu = new MDIMenu();
-                        this.Hide();
                         MessageBox.Show("Indentificacion correcta", "Autentificacion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Hide();
                         frmMenu.Show();
                     }
                 }

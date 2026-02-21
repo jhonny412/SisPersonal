@@ -44,8 +44,13 @@
             this.btnGrabar = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.lblFecha = new System.Windows.Forms.Label();
+            this.lblIdPersonal = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txtObservacion = new System.Windows.Forms.RichTextBox();
+            this.txtIdMarcacion = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -76,7 +81,7 @@
             // 
             // lblNombres
             // 
-            this.lblNombres.BackColor = System.Drawing.Color.Maroon;
+            this.lblNombres.BackColor = System.Drawing.Color.DarkRed;
             this.lblNombres.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNombres.ForeColor = System.Drawing.Color.White;
             this.lblNombres.Location = new System.Drawing.Point(250, 32);
@@ -142,6 +147,7 @@
             this.chkRetornoRefrigerio.TabIndex = 5;
             this.chkRetornoRefrigerio.Text = "RETORNO REFRIGERIO";
             this.chkRetornoRefrigerio.UseVisualStyleBackColor = true;
+            this.chkRetornoRefrigerio.CheckedChanged += new System.EventHandler(this.chkRetornoRefrigerio_CheckedChanged);
             // 
             // chkSalidaRefrigerio
             // 
@@ -153,6 +159,7 @@
             this.chkSalidaRefrigerio.TabIndex = 5;
             this.chkSalidaRefrigerio.Text = "SALIDA REFRIGERIO";
             this.chkSalidaRefrigerio.UseVisualStyleBackColor = true;
+            this.chkSalidaRefrigerio.CheckedChanged += new System.EventHandler(this.chkSalidaRefrigerio_CheckedChanged);
             // 
             // chkSalida
             // 
@@ -164,6 +171,7 @@
             this.chkSalida.TabIndex = 5;
             this.chkSalida.Text = "SALIDA";
             this.chkSalida.UseVisualStyleBackColor = true;
+            this.chkSalida.CheckedChanged += new System.EventHandler(this.chkSalida_CheckedChanged);
             // 
             // chkEntrada
             // 
@@ -175,6 +183,7 @@
             this.chkEntrada.TabIndex = 5;
             this.chkEntrada.Text = "ENTRADA";
             this.chkEntrada.UseVisualStyleBackColor = true;
+            this.chkEntrada.CheckedChanged += new System.EventHandler(this.chkEntrada_CheckedChanged);
             // 
             // btnGrabar
             // 
@@ -187,6 +196,7 @@
             this.btnGrabar.Size = new System.Drawing.Size(75, 47);
             this.btnGrabar.TabIndex = 4;
             this.btnGrabar.UseVisualStyleBackColor = false;
+            this.btnGrabar.Click += new System.EventHandler(this.BtnGrabar_Click);
             // 
             // timer1
             // 
@@ -205,12 +215,55 @@
             this.lblFecha.TabIndex = 0;
             this.lblFecha.Text = "00:00:00";
             // 
+            // lblIdPersonal
+            // 
+            this.lblIdPersonal.AutoSize = true;
+            this.lblIdPersonal.Location = new System.Drawing.Point(13, 56);
+            this.lblIdPersonal.Name = "lblIdPersonal";
+            this.lblIdPersonal.Size = new System.Drawing.Size(35, 13);
+            this.lblIdPersonal.TabIndex = 5;
+            this.lblIdPersonal.Text = "label3";
+            this.lblIdPersonal.Visible = false;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.txtObservacion);
+            this.groupBox3.Location = new System.Drawing.Point(12, 260);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(777, 69);
+            this.groupBox3.TabIndex = 6;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Observaciones";
+            // 
+            // txtObservacion
+            // 
+            this.txtObservacion.AutoWordSelection = true;
+            this.txtObservacion.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtObservacion.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtObservacion.Location = new System.Drawing.Point(3, 16);
+            this.txtObservacion.Name = "txtObservacion";
+            this.txtObservacion.Size = new System.Drawing.Size(771, 50);
+            this.txtObservacion.TabIndex = 0;
+            this.txtObservacion.Text = "";
+            this.txtObservacion.TextChanged += new System.EventHandler(this.txtObservacion_TextChanged);
+            // 
+            // txtIdMarcacion
+            // 
+            this.txtIdMarcacion.Location = new System.Drawing.Point(332, 56);
+            this.txtIdMarcacion.Name = "txtIdMarcacion";
+            this.txtIdMarcacion.Size = new System.Drawing.Size(100, 20);
+            this.txtIdMarcacion.TabIndex = 7;
+            this.txtIdMarcacion.Visible = false;
+            // 
             // frmMarcacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightBlue;
-            this.ClientSize = new System.Drawing.Size(801, 272);
+            this.ClientSize = new System.Drawing.Size(801, 332);
+            this.Controls.Add(this.txtIdMarcacion);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.lblIdPersonal);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.lblFecha);
             this.Controls.Add(this.lblHora);
@@ -222,11 +275,13 @@
             this.Name = "frmMarcacion";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Marcación de Asistencias";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmMarcacion_FormClosed);
             this.Load += new System.EventHandler(this.frmMarcacion_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -248,5 +303,9 @@
         private System.Windows.Forms.CheckBox chkSalida;
         private System.Windows.Forms.CheckBox chkEntrada;
         private System.Windows.Forms.Label lblFecha;
+        private System.Windows.Forms.Label lblIdPersonal;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RichTextBox txtObservacion;
+        private System.Windows.Forms.TextBox txtIdMarcacion;
     }
 }

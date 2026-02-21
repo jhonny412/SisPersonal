@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GUI
@@ -13,10 +6,41 @@ namespace GUI
     public partial class MDIMenu : Form
     {
         private int childFormNumber = 0;
+        frmLogin usuario = new frmLogin();
 
         public MDIMenu()
         {
             InitializeComponent();
+        }
+
+        private void ApplyModernStyles()
+        {
+            // Aplicar estilos modernos al formulario principal
+            UIStyles.ApplyFormStyle(this);
+            
+            // Aplicar estilos al MenuStrip
+            UIStyles.ApplyToolStripStyle(menuStrip);
+            
+            // Aplicar estilos al ToolStrip
+            UIStyles.ApplyToolStripStyle(toolStrip);
+            
+            // Configurar colores del StatusStrip
+            statusStrip.BackColor = UIStyles.White;
+            statusStrip.ForeColor = UIStyles.DarkGray;
+            
+            // Configurar el TreeView con estilos modernos
+            tvrMenu.BackColor = UIStyles.White;
+            tvrMenu.ForeColor = UIStyles.DarkGray;
+            tvrMenu.Font = UIStyles.BodyFont;
+            tvrMenu.BorderStyle = BorderStyle.None;
+            tvrMenu.ShowLines = false;
+            tvrMenu.ShowPlusMinus = true;
+            tvrMenu.ShowRootLines = false;
+            
+            // Configurar el SplitContainer
+            splitContainer1.BackColor = UIStyles.LightGray;
+            splitContainer1.Panel1.BackColor = UIStyles.White;
+            splitContainer1.Panel2.BackColor = UIStyles.LightGray;
         }
 
         private void ShowNewForm(object sender, EventArgs e)
@@ -116,7 +140,7 @@ namespace GUI
                     xform.Show();
                     break;
                 case "Asistencias":
-                    frmAsistencias frmAsis = new frmAsistencias();
+                    frmViewRepMarcaciones frmAsis = new frmViewRepMarcaciones();
                     frmAsis.MdiParent = this;
                     splitContainer1.Panel2.Controls.Add(frmAsis);
                     frmAsis.Show();
@@ -168,8 +192,16 @@ namespace GUI
                     {
                         Application.Exit();
                     }
-                break;
+                    break;
             }
+        }
+
+        private void MDIMenu_Load(object sender, EventArgs e)
+        {
+            ApplyModernStyles();
+            string usu;
+            usu = usuario._Usuario;
+            tsEstado.Text = "USUARIO ACTUAL DEL SISTEMA: " + usu;
         }
     }
 }

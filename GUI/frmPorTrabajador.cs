@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace GUI
 {
@@ -15,6 +7,11 @@ namespace GUI
         public frmPorTrabajador()
         {
             InitializeComponent();
+        }
+
+        private void frmPorTrabajador_Load(object sender, System.EventArgs e)
+        {
+            UIStyles.ApplyModernStylesToForm(this);
         }
     }
 }

@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CE;
-using System.Data;
+﻿using System.Data;
 using System.Data.SqlClient;
 
 namespace CAD
 {
-    public class D_Empleado
+    public class D_Empleado : ID_Empleado
     {
         Conexion objCon = new Conexion();
         SqlConnection cnx;
         //E_Empleado objEEmp = new E_Empleado();
 
-        public DataTable buscarPersona(CE.E_Empleado objEmpleado)
+        public virtual DataTable buscarPersona(CE.E_Empleado objEmpleado)
         {
             cnx = objCon.getConecta();
             cnx.Open();
@@ -28,7 +22,19 @@ namespace CAD
             da.Fill(dt);
             //Ejecutando la consulta
             cmd.ExecuteReader();
+            return dt;
+        }
 
+        public virtual DataTable GetEmpleado()
+        {
+            cnx = objCon.getConecta();
+            cnx.Open();
+            SqlCommand cmd = new SqlCommand("SELECT E.Ape_Paterno,E.Ape_Materno,E.Nombres,E.DNI,E.Direccion, E.Estado,E.SBasicoHora,E.SHorasExtraHora FROM dbo.Empleados E", cnx);
+            cmd.CommandType = CommandType.Text;
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
             return dt;
         }
     }

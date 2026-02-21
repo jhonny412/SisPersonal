@@ -29,8 +29,17 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // frmHorasExtras
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "frmHorasExtras";
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Name = "frmHorasExtras";
+            this.Text = "Reporte de Horas Extras";
+            this.Load += new System.EventHandler(this.frmHorasExtras_Load);
+            this.ResumeLayout(false);
         }
 
         #endregion

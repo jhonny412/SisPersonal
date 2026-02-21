@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CE
 {
     public class E_Marcaciones
     {
-        public int Id_Marcacion { get; set; }
+        public string Id_Marcacion { get; set; }
         public String Id_Empleado { get; set; }
         public DateTime Fecha { get; set; }
-        public DateTime H_Ingreso { get; set; }
-        public DateTime HS_Refrigerio { get; set; }
-        public DateTime HI_Refrigerio { get; set; }
-        public DateTime H_Salida { get; set; }
-        public DateTime TH_Refrigerio { get; set; }
-        public DateTime TH_Trabajadas { get; set; }
+        public string H_Ingreso { get; set; }
+        public string HS_Refrigerio { get; set; }
+        public string HI_Refrigerio { get; set; }
+        public string H_Salida { get; set; }
+        public string TH_Refrigerio { get; set; }
+        public string TH_Trabajadas { get; set; }
+        public string Observacion { get; set; }
+        public string Mensaje { get; set; }
     }
 }

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CAD;
-using BL;
+﻿using CAD;
+using CE;
+using System;
 using System.Data;
 
 namespace BL
@@ -15,6 +11,26 @@ namespace BL
         public DataTable ListarMarcaciones()
         {
             return objDMarcacion.ListarMarcaciones();
+        }
+
+        public bool InsertarMarcacion(E_Marcaciones obj)
+        {
+            return objDMarcacion.InsertarMarcacion(obj);
+        }
+
+        public DataTable ConsultarMarcacion(E_Empleado objEmp)
+        {
+            return objDMarcacion.ConsultarMarcacion(objEmp);
+        }
+
+        public DataTable ListarEmpleados()
+        {
+            return objDMarcacion.ListarEmpleados();
+        }
+
+        public DataTable MarcacionXFecha(string id, DateTime desde, DateTime hasta)
+        {
+            return objDMarcacion.MarcacionXFecha(id, desde, hasta);
         }
     }
 }

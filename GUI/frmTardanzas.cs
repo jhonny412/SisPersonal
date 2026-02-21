@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GUI
@@ -15,6 +8,11 @@ namespace GUI
         public frmTardanzas()
         {
             InitializeComponent();
+        }
+
+        private void frmTardanzas_Load(object sender, EventArgs e)
+        {
+            UIStyles.ApplyModernStylesToForm(this);
         }
     }
 }

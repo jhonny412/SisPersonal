@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.SqlServer.Types.160.1000.6\build\net462\Microsoft.SqlServer.Types.props" Condition="Exists('..\packages\Microsoft.SqlServer.Types.160.1000.6\build\net462\Microsoft.SqlServer.Types.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -8,9 +9,29 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>GUI</RootNamespace>
     <AssemblyName>GUI</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>D:\Deployment\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <AutorunEnabled>true</AutorunEnabled>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,33 +53,29 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="itextsharp, Version=5.5.11.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\iTextSharp.5.5.11\lib\itextsharp.dll</HintPath>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>..\packages\BouncyCastle.Cryptography.2.5.0\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ReportViewer.Common, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ReportViewer.2015.12.0.2.2403\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+    <Reference Include="itextsharp, Version=5.5.13.4, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.4\lib\net461\itextsharp.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ReportViewer.2015.12.0.2.2403\lib\net40\Microsoft.ReportViewer.DataVisualization.DLL</HintPath>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ReportViewer.Design, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ReportViewer.2015.12.0.2.2403\lib\net40\Microsoft.ReportViewer.Design.DLL</HintPath>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ReportViewer.2015.12.0.2.2403\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.DLL</HintPath>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ReportViewer.WebDesign, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ReportViewer.2015.12.0.2.2403\lib\net40\Microsoft.ReportViewer.WebDesign.DLL</HintPath>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ReportViewer.WebForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ReportViewer.2015.12.0.2.2403\lib\net40\Microsoft.ReportViewer.WebForms.DLL</HintPath>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ReportViewer.WinForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ReportViewer.2015.12.0.2.2403\lib\net40\Microsoft.ReportViewer.WinForms.DLL</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.Types, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ReportViewer.2015.12.0.2.2403\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.SqlServer.Types, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.160.1000.6\lib\net462\Microsoft.SqlServer.Types.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -73,16 +90,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="dsMarcacion.Designer.cs">
+    <Compile Include="dsGeneral.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>dsMarcacion.xsd</DependentUpon>
+      <DependentUpon>dsGeneral.xsd</DependentUpon>
     </Compile>
-    <Compile Include="frmAsistencias.cs">
+    <Compile Include="UIStyles.cs" />
+    <Compile Include="frmViewRepMarcaciones.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAsistencias.Designer.cs">
-      <DependentUpon>frmAsistencias.cs</DependentUpon>
+    <Compile Include="frmViewRepMarcaciones.Designer.cs">
+      <DependentUpon>frmViewRepMarcaciones.cs</DependentUpon>
     </Compile>
     <Compile Include="frmFaltas.cs">
       <SubType>Form</SubType>
@@ -132,23 +150,11 @@
     <Compile Include="frmPorTrabajador.Designer.cs">
       <DependentUpon>frmPorTrabajador.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmRepMarcacion.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmRepMarcacion.Designer.cs">
-      <DependentUpon>frmRepMarcacion.cs</DependentUpon>
-    </Compile>
     <Compile Include="frmReporteMarcaciones.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmReporteMarcaciones.Designer.cs">
       <DependentUpon>frmReporteMarcaciones.cs</DependentUpon>
-    </Compile>
-    <Compile Include="frmRepUsuarios.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmRepUsuarios.Designer.cs">
-      <DependentUpon>frmRepUsuarios.cs</DependentUpon>
     </Compile>
     <Compile Include="frmTardanzas.cs">
       <SubType>Form</SubType>
@@ -164,8 +170,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="frmAsistencias.resx">
-      <DependentUpon>frmAsistencias.cs</DependentUpon>
+    <EmbeddedResource Include="frmViewRepMarcaciones.resx">
+      <DependentUpon>frmViewRepMarcaciones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmGestionEmpleados.resx">
+      <DependentUpon>frmGestionEmpleados.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmGestionUsuario.resx">
       <DependentUpon>frmGestionUsuario.cs</DependentUpon>
@@ -176,14 +185,11 @@
     <EmbeddedResource Include="frmMarcacion.resx">
       <DependentUpon>frmMarcacion.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmRepMarcacion.resx">
-      <DependentUpon>frmRepMarcacion.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmReporteMarcaciones.resx">
       <DependentUpon>frmReporteMarcaciones.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmRepUsuarios.resx">
-      <DependentUpon>frmRepUsuarios.cs</DependentUpon>
+    <EmbeddedResource Include="frmTardanzas.resx">
+      <DependentUpon>frmTardanzas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MDIMenu.resx">
       <DependentUpon>MDIMenu.cs</DependentUpon>
@@ -198,18 +204,18 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="repMarcacion.rdlc" />
+    <EmbeddedResource Include="ReportMarcaciones.rdlc" />
     <EmbeddedResource Include="repUsuarios.rdlc" />
-    <None Include="dsMarcacion.xsc">
-      <DependentUpon>dsMarcacion.xsd</DependentUpon>
+    <None Include="dsGeneral.xsc">
+      <DependentUpon>dsGeneral.xsd</DependentUpon>
     </None>
-    <None Include="dsMarcacion.xsd">
-      <SubType>Designer</SubType>
+    <None Include="dsGeneral.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>dsMarcacion.Designer.cs</LastGenOutput>
+      <LastGenOutput>dsGeneral.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </None>
-    <None Include="dsMarcacion.xss">
-      <DependentUpon>dsMarcacion.xsd</DependentUpon>
+    <None Include="dsGeneral.xss">
+      <DependentUpon>dsGeneral.xsd</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -226,9 +232,40 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 y x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="imagenes\Aceptar2.png" />
+    <Content Include="imagenes\adicionar.png" />
+    <Content Include="imagenes\Ayuda2.png" />
+    <Content Include="imagenes\Borrar2.png" />
+    <Content Include="imagenes\CambiarUsuario.png" />
+    <Content Include="imagenes\Cancelar.png" />
+    <Content Include="imagenes\Cancelar2.png" />
+    <Content Include="imagenes\Guardar.png" />
+    <Content Include="imagenes\Modificar.png" />
+    <Content Include="imagenes\Reporte.png" />
+    <Content Include="imagenes\Salir.png" />
+    <Content Include="imagenes\usuarios.png" />
+    <None Include="Resources\MenuFondo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\BL\BL.csproj">
       <Project>{44deb961-341c-432b-a08f-f260fabe61dc}</Project>
       <Name>BL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CAD\CAD.csproj">
+      <Project>{242163c4-86bf-4b77-b9a2-ebf5a3653c18}</Project>
+      <Name>CAD</Name>
     </ProjectReference>
     <ProjectReference Include="..\CE\CE.csproj">
       <Project>{7d6b1665-fecc-4ec5-ba60-90f65fd55af7}</Project>
@@ -236,4 +273,10 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.SqlServer.Types.160.1000.6\build\net462\Microsoft.SqlServer.Types.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.SqlServer.Types.160.1000.6\build\net462\Microsoft.SqlServer.Types.props'))" />
+  </Target>
 </Project>
