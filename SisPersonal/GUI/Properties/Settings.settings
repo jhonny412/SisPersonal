@@ -4,19 +4,19 @@
   <Settings>
     <Setting Name="Control_PersonalConnectionString" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;Server=Servidor;Initial Catalog=dbControlPersonal;Persist Security Info=True;User ID=sa;Password=Sunat_2026;Encrypt=False;TrustServerCertificate=True&lt;/ConnectionString&gt;
+&lt;SerializableConnectionString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;ConnectionString&gt;Server=Servidor;Initial Catalog=dbControlPersonal;User ID=sa;Password=Sunat_2026;Encrypt=True;TrustServerCertificate=True;PersistSecurityInfo=False;Connection Timeout=15&lt;/ConnectionString&gt;
   &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">Server=Servidor;Initial Catalog=dbControlPersonal;Persist Security Info=True;User ID=sa;Password=Sunat_2026;Encrypt=False;TrustServerCertificate=True</Value>
+      <Value Profile="(Default)">Server=Servidor;Initial Catalog=dbControlPersonal;User ID=sa;Password=Sunat_2026;Encrypt=True;TrustServerCertificate=True;PersistSecurityInfo=False;Connection Timeout=15</Value>
     </Setting>
     <Setting Name="Control_PersonalCnx" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;SerializableConnectionString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
-  &lt;ConnectionString&gt;Server=Servidor;Initial Catalog=dbControlPersonal;Persist Security Info=True;User ID=sa;Password=Sunat_2026;Encrypt=False;TrustServerCertificate=True&lt;/ConnectionString&gt;
+  &lt;ConnectionString&gt;Server=Servidor;Initial Catalog=dbControlPersonal;User ID=sa;Password=Sunat_2026;Encrypt=True;TrustServerCertificate=True;PersistSecurityInfo=False;Connection Timeout=15&lt;/ConnectionString&gt;
   &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">Server=Servidor;Initial Catalog=dbControlPersonal;Persist Security Info=True;User ID=sa;Password=Sunat_2026;Encrypt=False;TrustServerCertificate=True</Value>
+      <Value Profile="(Default)">Server=Servidor;Initial Catalog=dbControlPersonal;User ID=sa;Password=Sunat_2026;Encrypt=True;TrustServerCertificate=True;PersistSecurityInfo=False;Connection Timeout=15</Value>
     </Setting>
   </Settings>
 </SettingsFile>

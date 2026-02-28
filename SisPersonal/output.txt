@@ -1,0 +1,20 @@
+Text                                                                                                                                                                                                                                                           
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE PROCEDURE spBuscarEmpleado
+                                                                                                                                                                                                                            
+    @criterio varchar(100)
+                                                                                                                                                                                                                                   
+AS
+                                                                                                                                                                                                                                                           
+BEGIN
+                                                                                                                                                                                                                                                        
+    SELECT * FROM Empleados
+                                                                                                                                                                                                                                  
+    WHERE Nombres LIKE '%' + @criterio + '%' 
+                                                                                                                                                                                                                
+       OR Ape_Paterno LIKE '%' + @criterio + '%'
+                                                                                                                                                                                                             
+       OR DNI = @criterio;
+                                                                                                                                                                                                                                   
+END
+                                                                                                                                                                                                                                                          

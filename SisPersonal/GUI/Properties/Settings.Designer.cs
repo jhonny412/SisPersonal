@@ -26,7 +26,9 @@ namespace GUI.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.;Initial Catalog=dbControlPersonal;Integrated Security=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Server=Servidor;Initial Catalog=dbControlPersonal;User ID=sa;Password=Sunat_2026;" +
+            "Encrypt=True;TrustServerCertificate=True;PersistSecurityInfo=False;Connection Ti" +
+            "meout=15")]
         public string Control_PersonalConnectionString {
             get {
                 return ((string)(this["Control_PersonalConnectionString"]));
@@ -36,8 +38,9 @@ namespace GUI.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.;Initial Catalog=dbControlPersonal;Persist Security Info=True;User I" +
-            "D=sa;Password=Sunat_2026;Encrypt=False;TrustServerCertificate=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Server=Servidor;Initial Catalog=dbControlPersonal;User ID=sa;Password=Sunat_2026;" +
+            "Encrypt=True;TrustServerCertificate=True;PersistSecurityInfo=False;Connection Ti" +
+            "meout=15")]
         public string Control_PersonalCnx {
             get {
                 return ((string)(this["Control_PersonalCnx"]));

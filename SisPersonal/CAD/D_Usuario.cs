@@ -11,7 +11,11 @@ namespace CAD
         SqlConnection cnx;
         E_Usuario objUsuario = new E_Usuario();
 
-        //Codigo de Login
+        //Codigo de Login - SEGURO CON HASH + VERIFICACIÓN
+        /// <summary>
+        /// Verifica las credenciales del usuario contra su hash almacenado
+        /// Ahora compara hashes en lugar de texto plano
+        /// </summary>
         public virtual DataTable Login(CE.E_Usuario objUsuario)
         {
             cnx = objCon.getConecta();
@@ -21,20 +25,22 @@ namespace CAD
                 SqlCommand cmd = new SqlCommand("[spLogin]", cnx);
                 cmd.CommandType = CommandType.StoredProcedure;
 
+                // Pasamos el usuario (que no tiene hash)
                 cmd.Parameters.Add("@usuario", SqlDbType.Char, 25).Value = objUsuario.Usuario;
-                cmd.Parameters.Add("@clave", SqlDbType.Char, 25).Value = objUsuario.Clave;
-                //Creando DataAdapter
+                // Ahora pasamos la contraseña sin hash - el SP retornará el hash guardado
+                cmd.Parameters.Add("@clave", SqlDbType.VarChar, 255).Value = objUsuario.Clave;
+                
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
 
-                //Evaluando coincidencias
+                // IMPORTANTE: El comparador de contraseña debe hacerse en BL, no aquí
                 cmd.ExecuteNonQuery();
                 return dt;
             }
             catch (Exception ex2)
             {
-                throw new Exception(ex2.Message);
+                throw new Exception("Error en la autenticación: " + ex2.Message);
             }
         }
         public virtual void nuevoRegistro(CE.E_Usuario objUsuario, string acccion)
@@ -47,7 +53,7 @@ namespace CAD
             cmd.Parameters.Add("@Accion", SqlDbType.Char, 15).Value = acccion;
             cmd.Parameters.Add("@IdUsuario", SqlDbType.Int).Value = objUsuario.IdUsuario;
             cmd.Parameters.Add("@Usuario", SqlDbType.Char, 25).Value = objUsuario.Usuario;
-            cmd.Parameters.Add("@Clave", SqlDbType.Char, 25).Value = objUsuario.Clave;
+            cmd.Parameters.Add("@Clave", SqlDbType.VarChar, 255).Value = objUsuario.Clave;
             cmd.Parameters.Add("@Estado", SqlDbType.Bit).Value = objUsuario.Estado;
             cmd.Parameters.Add("@Perfil", SqlDbType.Char, 25).Value = objUsuario.Perfil;
 
@@ -71,7 +77,7 @@ namespace CAD
             cmd.Parameters.Add("@Accion", SqlDbType.Char, 15).Value = acccion;
             cmd.Parameters.Add("@IdUsuario", SqlDbType.Int).Value = objUsuario.IdUsuario;
             cmd.Parameters.Add("@Usuario", SqlDbType.Char, 25).Value = objUsuario.Usuario;
-            cmd.Parameters.Add("@Clave", SqlDbType.Char, 25).Value = objUsuario.Clave;
+            cmd.Parameters.Add("@Clave", SqlDbType.VarChar, 255).Value = objUsuario.Clave;
             cmd.Parameters.Add("@Estado", SqlDbType.Bit).Value = objUsuario.Estado;
             cmd.Parameters.Add("@Perfil", SqlDbType.Char, 25).Value = objUsuario.Perfil;
             try
@@ -94,7 +100,7 @@ namespace CAD
             cmd.Parameters.Add("@Accion", SqlDbType.Char, 15).Value = acccion;
             cmd.Parameters.Add("@IdUsuario", SqlDbType.Int).Value = objUsuario.IdUsuario;
             cmd.Parameters.Add("@Usuario", SqlDbType.Char, 25).Value = objUsuario.Usuario;
-            cmd.Parameters.Add("@Clave", SqlDbType.Char, 25).Value = objUsuario.Clave;
+            cmd.Parameters.Add("@Clave", SqlDbType.VarChar, 255).Value = objUsuario.Clave;
             cmd.Parameters.Add("@Estado", SqlDbType.Bit).Value = objUsuario.Estado;
             cmd.Parameters.Add("@Perfil", SqlDbType.Char, 25).Value = objUsuario.Perfil;
 

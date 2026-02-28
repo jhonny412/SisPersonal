@@ -1,4 +1,4 @@
--- Script para la creación de Procedimientos Almacenados de Empleados
+﻿-- Script para la creación de Procedimientos Almacenados de Empleados
 -- Proyecto: SisPersonal
 
 USE dbControlPersonal;
@@ -101,12 +101,21 @@ GO
 IF OBJECT_ID('spBuscarEmpleado', 'P') IS NOT NULL DROP PROCEDURE spBuscarEmpleado;
 GO
 CREATE PROCEDURE spBuscarEmpleado
-    @criterio varchar(100)
+    @NOMBRES varchar(100)
 AS
 BEGIN
-    SELECT * FROM Empleados
-    WHERE Nombres LIKE '%' + @criterio + '%' 
-       OR Ape_Paterno LIKE '%' + @criterio + '%'
-       OR DNI = @criterio;
+    IF @NOMBRES = '' OR @NOMBRES IS NULL
+    BEGIN
+        SELECT * FROM Empleados;
+    END
+    ELSE
+    BEGIN
+        SELECT * FROM Empleados
+        WHERE Nombres LIKE '%' + @NOMBRES + '%' 
+           OR Ape_Paterno LIKE '%' + @NOMBRES + '%'
+           OR Ape_Materno LIKE '%' + @NOMBRES + '%'
+           OR DNI LIKE '%' + @NOMBRES + '%';
+    END
 END
 GO
+

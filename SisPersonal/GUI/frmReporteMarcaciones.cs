@@ -29,12 +29,15 @@ namespace GUI
         private void frmReporteMarcaciones_Load(object sender, EventArgs e)
         {
             ApplyModernStyles();
-            ListarMarcacion();
             dtpDesde.Value = DateTime.Today;
             dtpHasta.Value = DateTime.Today;
 
             //Llena el combo con empleados
             LlenarComboEmpleados();
+
+            // Llama a la búsqueda para aplicar los filtros de fecha por defecto
+            chkTardanzas.CheckedChanged += new EventHandler(chkTardanzas_CheckedChanged);
+            btnBuscar_Click(null, null);
         }
 
         private void ApplyModernStyles()
@@ -55,18 +58,6 @@ namespace GUI
             cboTrabajador.DataSource = dtEmpleados;
             cboTrabajador.ValueMember = "ID_Empleado";
             cboTrabajador.DisplayMember = "Nombres";
-        }
-
-        void ListarMarcacion()
-        {
-            var registro = objBLMarcacion.ListarMarcaciones();
-            if (registro.Rows.Count == 0)
-            {
-                MessageBox.Show("NO SE ENCONTRARON REGISTROS DE MARCACIONES", "INFORMACION", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-            dgvMarcacion.DataSource = objBLMarcacion.ListarMarcaciones();
-            PlantillaGrilla();
         }
 
         private void PlantillaGrilla()
@@ -115,7 +106,7 @@ namespace GUI
 
         private void btnRefrescar_Click(object sender, EventArgs e)
         {
-            ListarMarcacion();
+            btnBuscar_Click(null, null);
         }
 
         private void btnSalir_Click(object sender, EventArgs e)
@@ -128,14 +119,14 @@ namespace GUI
             esGenerico = 1;
             if (chkTodos.Checked)
             {
-                    id = "";
+                id = "";
             }
             else
             {
-                if (cboTrabajador.SelectedIndex == -1)
+                // Si no se selecciona un empleado específico (índice 0 es la fila vacía "Seleccione" o -1 si está deseleccionado)
+                if (cboTrabajador.SelectedIndex <= 0)
                 {
-                    MessageBox.Show("DEBE SELECCIONAR UN TRABAJADOR PARA LISTAR SUS MARCACIONES", "INFORMACION", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
+                    id = ""; // Devuelve todas las marcaciones
                 }
                 else
                 {
@@ -153,9 +144,39 @@ namespace GUI
                 dgvMarcacion.DataSource = null;
                 return;
             }
-            PlantillaGrilla();
-            dgvMarcacion.DataSource = resultado;
             
+            if (chkTardanzas.Checked)
+            {
+                DataTable tbTardanzas = resultado.Clone();
+                TimeSpan horaTardanza = new TimeSpan(8, 10, 0);
+                foreach (DataRow fila in resultado.Rows)
+                {
+                    if (fila["H_Ingreso"] != DBNull.Value)
+                    {
+                        TimeSpan horaIngreso;
+                        if (TimeSpan.TryParse(fila["H_Ingreso"].ToString(), out horaIngreso))
+                        {
+                            if (horaIngreso > horaTardanza)
+                            {
+                                tbTardanzas.ImportRow(fila);
+                            }
+                        }
+                    }
+                }
+                dgvMarcacion.DataSource = tbTardanzas;
+            }
+            else
+            {
+                dgvMarcacion.DataSource = resultado;
+            }
+
+            PlantillaGrilla();
+            
+        }
+
+        private void chkTardanzas_CheckedChanged(object sender, EventArgs e)
+        {
+            btnBuscar_Click(null, null);
         }
 
         private void chkTodos_CheckedChanged(object sender, EventArgs e)

@@ -67,7 +67,7 @@
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
             this.label1.Location = new System.Drawing.Point(20, 20);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(201, 32);
+            this.label1.Size = new System.Drawing.Size(242, 32);
             this.label1.TabIndex = 0;
             this.label1.Text = "Gestión de Usuarios";
             // 
@@ -89,7 +89,7 @@
             this.groupBox1.Location = new System.Drawing.Point(20, 70);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(15);
-            this.groupBox1.Size = new System.Drawing.Size(750, 130);
+            this.groupBox1.Size = new System.Drawing.Size(750, 143);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos de Usuario";
@@ -100,9 +100,9 @@
             this.cboPerfil.Items.AddRange(new object[] {
             "Administrador",
             "Empleado"});
-            this.cboPerfil.Location = new System.Drawing.Point(538, 59);
+            this.cboPerfil.Location = new System.Drawing.Point(538, 82);
             this.cboPerfil.Name = "cboPerfil";
-            this.cboPerfil.Size = new System.Drawing.Size(138, 21);
+            this.cboPerfil.Size = new System.Drawing.Size(138, 29);
             this.cboPerfil.TabIndex = 4;
             // 
             // cboEstado
@@ -111,16 +111,16 @@
             this.cboEstado.Items.AddRange(new object[] {
             "Activo",
             "Inactivo"});
-            this.cboEstado.Location = new System.Drawing.Point(321, 60);
+            this.cboEstado.Location = new System.Drawing.Point(321, 82);
             this.cboEstado.Name = "cboEstado";
-            this.cboEstado.Size = new System.Drawing.Size(138, 21);
+            this.cboEstado.Size = new System.Drawing.Size(138, 29);
             this.cboEstado.TabIndex = 3;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(256, 63);
+            this.label5.Location = new System.Drawing.Point(256, 88);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(59, 13);
             this.label5.TabIndex = 4;
@@ -130,7 +130,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(479, 64);
+            this.label6.Location = new System.Drawing.Point(479, 88);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(53, 13);
             this.label6.TabIndex = 6;
@@ -142,7 +142,7 @@
             this.txtClave.MaxLength = 20;
             this.txtClave.Name = "txtClave";
             this.txtClave.PasswordChar = '•';
-            this.txtClave.Size = new System.Drawing.Size(355, 20);
+            this.txtClave.Size = new System.Drawing.Size(355, 29);
             this.txtClave.TabIndex = 2;
             // 
             // label4
@@ -157,16 +157,16 @@
             // 
             // txtUsuario
             // 
-            this.txtUsuario.Location = new System.Drawing.Point(94, 60);
+            this.txtUsuario.Location = new System.Drawing.Point(104, 82);
             this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(138, 20);
+            this.txtUsuario.Size = new System.Drawing.Size(138, 29);
             this.txtUsuario.TabIndex = 1;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(24, 63);
+            this.label3.Location = new System.Drawing.Point(12, 92);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(64, 13);
             this.label3.TabIndex = 0;
@@ -174,25 +174,25 @@
             // 
             // txtCodigo
             // 
+            this.txtCodigo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(249)))), ((int)(((byte)(250)))));
+            this.txtCodigo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtCodigo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCodigo.Location = new System.Drawing.Point(20, 55);
+            this.txtCodigo.Location = new System.Drawing.Point(104, 38);
             this.txtCodigo.Name = "txtCodigo";
             this.txtCodigo.ReadOnly = true;
             this.txtCodigo.Size = new System.Drawing.Size(150, 23);
             this.txtCodigo.TabIndex = 0;
-            this.txtCodigo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(249)))), ((int)(((byte)(250)))));
-            this.txtCodigo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(58)))), ((int)(((byte)(64)))));
-            this.label2.Location = new System.Drawing.Point(20, 35);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            this.label2.Location = new System.Drawing.Point(12, 40);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(67, 15);
+            this.label2.Size = new System.Drawing.Size(89, 13);
             this.label2.TabIndex = 0;
-            this.label2.Text = "ID Usuario:";
+            this.label2.Text = "ID USUSARIO:";
             // 
             // panel1
             // 
@@ -200,9 +200,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.dgvUsuarios);
-            this.panel1.Location = new System.Drawing.Point(12, 190);
+            this.panel1.Location = new System.Drawing.Point(12, 219);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(703, 173);
+            this.panel1.Size = new System.Drawing.Size(761, 199);
             this.panel1.TabIndex = 2;
             // 
             // dgvUsuarios
@@ -213,8 +213,7 @@
             this.dgvUsuarios.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvUsuarios.BackgroundColor = System.Drawing.Color.White;
             this.dgvUsuarios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvUsuarios.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvUsuarios.Location = new System.Drawing.Point(0, 0);
+            this.dgvUsuarios.Location = new System.Drawing.Point(14, 13);
             this.dgvUsuarios.Name = "dgvUsuarios";
             this.dgvUsuarios.ReadOnly = true;
             this.dgvUsuarios.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -244,7 +243,7 @@
             this.clienteBindingNavigator.MovePreviousItem = null;
             this.clienteBindingNavigator.Name = "clienteBindingNavigator";
             this.clienteBindingNavigator.PositionItem = null;
-            this.clienteBindingNavigator.Size = new System.Drawing.Size(727, 25);
+            this.clienteBindingNavigator.Size = new System.Drawing.Size(785, 25);
             this.clienteBindingNavigator.TabIndex = 3;
             this.clienteBindingNavigator.Text = "bindingNavigator1";
             // 
@@ -320,7 +319,7 @@
             // 
             this.chkTodos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkTodos.AutoSize = true;
-            this.chkTodos.Location = new System.Drawing.Point(12, 369);
+            this.chkTodos.Location = new System.Drawing.Point(12, 433);
             this.chkTodos.Name = "chkTodos";
             this.chkTodos.Size = new System.Drawing.Size(148, 17);
             this.chkTodos.TabIndex = 0;
@@ -333,12 +332,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(727, 395);
+            this.ClientSize = new System.Drawing.Size(785, 500);
             this.Controls.Add(this.chkTodos);
             this.Controls.Add(this.clienteBindingNavigator);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmGestionUsuario";
             this.Text = "frmGestionUsuario";
             this.Load += new System.EventHandler(this.frmGestionUsuario_Load);

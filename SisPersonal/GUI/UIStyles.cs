@@ -15,48 +15,62 @@ namespace GUI
         #region Paleta Corporativa
 
         // Colores primarios de la empresa
-        public static readonly Color BrandPink    = Color.FromArgb(254, 99,  147);   // #fe6393
-        public static readonly Color BrandCyan    = Color.FromArgb(12,  185, 218);   // #0cb9da
+        public static readonly System.Drawing.Color BrandGold      = System.Drawing.Color.FromArgb(219, 176, 80);  // #dbb050
+        public static readonly System.Drawing.Color BrandTeal      = System.Drawing.Color.FromArgb(26, 141, 137);  // #1a8d89
+        public static readonly System.Drawing.Color BrandPink      = System.Drawing.Color.FromArgb(254, 99, 147);
 
-        // Variantes de rosa
-        public static readonly Color BrandPinkDark  = Color.FromArgb(220, 70,  115);
-        public static readonly Color BrandPinkLight = Color.FromArgb(255, 180, 205);
-        public static readonly Color BrandPinkBg    = Color.FromArgb(255, 240, 246);  // fondo suave rosa
-
-        // Variantes de cian
-        public static readonly Color BrandCyanDark  = Color.FromArgb(8,   148, 175);
-        public static readonly Color BrandCyanLight = Color.FromArgb(150, 230, 245);
-        public static readonly Color BrandCyanBg    = Color.FromArgb(232, 250, 254);  // fondo suave cian
+        // Alias para compatibilidad
+        public static readonly System.Drawing.Color BrandCyan      = BrandTeal;
+        public static readonly System.Drawing.Color BrandNavy      = BrandGold;
+        
+        // Variantes y fondos
+        public static readonly System.Drawing.Color BrandPinkDark  = System.Drawing.Color.FromArgb(220, 70, 115);
+        public static readonly System.Drawing.Color BrandCyanDark  = System.Drawing.Color.FromArgb(20, 110, 105);
+        public static readonly System.Drawing.Color BrandPinkBg    = System.Drawing.Color.FromArgb(255, 240, 246);
+        public static readonly System.Drawing.Color BrandCyanBg    = System.Drawing.Color.FromArgb(232, 250, 254);
 
         // Neutros
-        public static readonly Color White       = Color.White;
-        public static readonly Color Background  = Color.FromArgb(248, 250, 252);     // gris muy claro
-        public static readonly Color Surface     = Color.White;
-        public static readonly Color TextPrimary = Color.FromArgb(30,  30,  45);      // casi negro
-        public static readonly Color TextSecond  = Color.FromArgb(100, 110, 130);     // gris medio
-        public static readonly Color Border      = Color.FromArgb(220, 225, 235);
+        public static readonly System.Drawing.Color White       = System.Drawing.Color.White;
+        public static readonly System.Drawing.Color Background  = System.Drawing.Color.FromArgb(248, 250, 252);     // gris muy claro
+        public static readonly System.Drawing.Color Surface     = System.Drawing.Color.White;
+        public static readonly System.Drawing.Color TextPrimary = System.Drawing.Color.FromArgb(30,  30,  45);      // casi negro
+        public static readonly System.Drawing.Color TextSecond  = System.Drawing.Color.FromArgb(100, 110, 130);     // gris medio
+        public static readonly System.Drawing.Color Border      = System.Drawing.Color.FromArgb(220, 225, 235);
 
         // Estado
-        public static readonly Color SuccessGreen = Color.FromArgb(39,  174, 96);
-        public static readonly Color DangerRed    = Color.FromArgb(220, 53,  69);
-        public static readonly Color WarningAmber = Color.FromArgb(255, 193, 7);
+        public static readonly System.Drawing.Color SuccessGreen = System.Drawing.Color.FromArgb(39,  174, 96);
+        public static readonly System.Drawing.Color DangerRed    = System.Drawing.Color.FromArgb(220, 53,  69);
+        public static readonly System.Drawing.Color WarningAmber = System.Drawing.Color.FromArgb(255, 193, 7);
 
         // Alias de compatibilidad (nombres anteriores → paleta corporativa)
-        public static readonly Color DarkGray  = Color.FromArgb(30,  30,  45);   // = TextPrimary
-        public static readonly Color LightGray = Color.FromArgb(248, 250, 252);  // = Background
-        public static readonly Color LightBlue = Color.FromArgb(232, 250, 254);  // = BrandCyanBg
+        public static readonly System.Drawing.Color DarkGray  = System.Drawing.Color.FromArgb(30,  30,  45);   // = TextPrimary
+        public static readonly System.Drawing.Color LightGray = System.Drawing.Color.FromArgb(248, 250, 252);  // = Background
+        public static readonly System.Drawing.Color LightBlue = System.Drawing.Color.FromArgb(232, 250, 254);  // = BrandCyanBg
+        
+        // Login Modern Colors
+        public static readonly System.Drawing.Color LoginInputBg       = System.Drawing.Color.FromArgb(244, 246, 249);
+        
+        // Sidebar / Dark Theme
+        public static readonly System.Drawing.Color SidebarBg      = System.Drawing.Color.FromArgb(20, 40, 40); // Darker Teal for background
+        public static readonly System.Drawing.Color SidebarHover   = System.Drawing.Color.FromArgb(40, 80, 80);
+        public static readonly System.Drawing.Color SidebarSelection = BrandGold;
+        public static readonly System.Drawing.Color AccentOrange     = BrandGold;
+        
+        // Login Modern Colors
+        public static readonly System.Drawing.Color LoginGradientStart = BrandTeal;
+        public static readonly System.Drawing.Color LoginGradientEnd   = System.Drawing.Color.FromArgb(40, 160, 155);
 
         #endregion
 
         #region Fuentes (Segoe UI — fuente nativa de Windows moderna)
 
-        public static readonly Font TitleFont    = new Font("Segoe UI", 16F, FontStyle.Bold);
-        public static readonly Font SubtitleFont = new Font("Segoe UI", 13F, FontStyle.Bold);
-        public static readonly Font HeaderFont   = new Font("Segoe UI", 10F, FontStyle.Bold);
-        public static readonly Font BodyFont     = new Font("Segoe UI",  9F, FontStyle.Regular);
-        public static readonly Font SmallFont    = new Font("Segoe UI",  8F, FontStyle.Regular);
-        public static readonly Font ButtonFont   = new Font("Segoe UI",  9F, FontStyle.Bold);
-        public static readonly Font InputFont    = new Font("Segoe UI",  9F, FontStyle.Regular);
+        public static readonly System.Drawing.Font TitleFont    = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
+        public static readonly System.Drawing.Font SubtitleFont = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold);
+        public static readonly System.Drawing.Font HeaderFont   = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+        public static readonly System.Drawing.Font BodyFont     = new System.Drawing.Font("Segoe UI",  9F, System.Drawing.FontStyle.Regular);
+        public static readonly System.Drawing.Font SmallFont    = new System.Drawing.Font("Segoe UI",  8F, System.Drawing.FontStyle.Regular);
+        public static readonly System.Drawing.Font ButtonFont   = new System.Drawing.Font("Segoe UI",  9F, System.Drawing.FontStyle.Bold);
+        public static readonly System.Drawing.Font InputFont    = new System.Drawing.Font("Segoe UI",  9F, System.Drawing.FontStyle.Regular);
 
         #endregion
 
@@ -130,7 +144,7 @@ namespace GUI
 
             ApplyRoundedCorners(btn);
 
-            btn.MouseEnter += (s, e) => btn.BackColor = Color.FromArgb(190, 30, 50);
+            btn.MouseEnter += (s, e) => btn.BackColor = System.Drawing.Color.FromArgb(190, 30, 50);
             btn.MouseLeave += (s, e) => btn.BackColor = DangerRed;
         }
 
@@ -176,7 +190,7 @@ namespace GUI
         {
             lbl.Font      = TitleFont;
             lbl.ForeColor = BrandCyan;
-            lbl.BackColor = Color.Transparent;
+            lbl.BackColor = System.Drawing.Color.Transparent;
         }
 
         /// <summary>Label de subtítulo.</summary>
@@ -184,7 +198,7 @@ namespace GUI
         {
             lbl.Font      = SubtitleFont;
             lbl.ForeColor = BrandPink;
-            lbl.BackColor = Color.Transparent;
+            lbl.BackColor = System.Drawing.Color.Transparent;
         }
 
         /// <summary>Label normal.</summary>
@@ -192,7 +206,7 @@ namespace GUI
         {
             lbl.Font      = BodyFont;
             lbl.ForeColor = TextPrimary;
-            lbl.BackColor = Color.Transparent;
+            lbl.BackColor = System.Drawing.Color.Transparent;
         }
 
         /// <summary>GroupBox con acento cian en el título.</summary>
@@ -200,7 +214,7 @@ namespace GUI
         {
             gb.Font      = HeaderFont;
             gb.ForeColor = BrandCyan;
-            gb.BackColor = Color.Transparent;
+            gb.BackColor = System.Drawing.Color.Transparent;
             gb.FlatStyle = FlatStyle.Flat;
         }
 
@@ -244,7 +258,7 @@ namespace GUI
         {
             cb.Font      = BodyFont;
             cb.ForeColor = TextPrimary;
-            cb.BackColor = Color.Transparent;
+            cb.BackColor = System.Drawing.Color.Transparent;
             cb.Cursor    = Cursors.Hand;
         }
 
@@ -279,6 +293,15 @@ namespace GUI
             ts.ForeColor = TextPrimary;
             ts.Font      = BodyFont;
             ts.Renderer  = new ModernToolStripRenderer();
+        }
+
+        /// <summary>Dibuja un fondo con gradiente lineal.</summary>
+        public static void PaintGradient(System.Drawing.Graphics g, System.Drawing.Rectangle rect, System.Drawing.Color startColor, System.Drawing.Color endColor, float angle = 45f)
+        {
+            using (var brush = new LinearGradientBrush(rect, startColor, endColor, angle))
+            {
+                g.FillRectangle(brush, rect);
+            }
         }
 
         #endregion
@@ -366,14 +389,14 @@ namespace GUI
         {
             if (e.Item.Selected || e.Item.Pressed)
                 using (var brush = new SolidBrush(UIStyles.BrandCyanBg))
-                    e.Graphics.FillRectangle(brush, new Rectangle(Point.Empty, e.Item.Size));
+                    e.Graphics.FillRectangle(brush, new System.Drawing.Rectangle(System.Drawing.Point.Empty, e.Item.Size));
         }
 
         protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
         {
             if (e.Item.Selected)
                 using (var brush = new SolidBrush(UIStyles.BrandCyanBg))
-                    e.Graphics.FillRectangle(brush, new Rectangle(Point.Empty, e.Item.Size));
+                    e.Graphics.FillRectangle(brush, new System.Drawing.Rectangle(System.Drawing.Point.Empty, e.Item.Size));
         }
     }
 }

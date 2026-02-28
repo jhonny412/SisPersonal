@@ -7,19 +7,25 @@ namespace CAD
     public class D_Empleado : ID_Empleado
     {
         Conexion objCon = new Conexion();
-        SqlConnection cnx;
-        //E_Empleado objEEmp = new E_Empleado();
 
         public virtual DataTable buscarPersona(CE.E_Empleado objEmpleado)
         {
             DataTable dt = new DataTable();
-            using (cnx = objCon.getConecta())
+            try
             {
-                SqlCommand cmd = new SqlCommand("spBuscarEmpleado", cnx);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@criterio", objEmpleado.Nombres); // Buscaremos por nombre por defecto
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
+                using (SqlConnection connection = objCon.getConecta())
+                {
+                    string criterio = objEmpleado.Nombres ?? "";
+                    SqlCommand cmd = new SqlCommand("spBuscarEmpleado", connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@NOMBRES", criterio);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Error en la base de datos al buscar empleado: " + ex.Message, ex);
             }
             return dt;
         }
@@ -27,74 +33,96 @@ namespace CAD
         public virtual DataTable GetEmpleado()
         {
             DataTable dt = new DataTable();
-            using (cnx = objCon.getConecta())
+            try
             {
-                SqlCommand cmd = new SqlCommand("spListarEmpleados", cnx);
-                cmd.CommandType = CommandType.StoredProcedure;
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
+                using (SqlConnection connection = objCon.getConecta())
+                {
+                    SqlCommand cmd = new SqlCommand("spListarEmpleados", connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Error al listar empleados: " + ex.Message, ex);
             }
             return dt;
         }
 
         public int nuevoRegistro(CE.E_Empleado objEmpleado)
         {
-            int r = 0;
-            using (cnx = objCon.getConecta())
+            try
             {
-                SqlCommand cmd = new SqlCommand("spInsertarEmpleado", cnx);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Id_Empleado", objEmpleado.ID_Empleado);
-                cmd.Parameters.AddWithValue("@Ape_Paterno", objEmpleado.Ape_Paterno);
-                cmd.Parameters.AddWithValue("@Ape_Materno", objEmpleado.Ape_Materno);
-                cmd.Parameters.AddWithValue("@Nombres", objEmpleado.Nombres);
-                cmd.Parameters.AddWithValue("@DNI", objEmpleado.DNI);
-                cmd.Parameters.AddWithValue("@Direccion", (object)objEmpleado.Direccion ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Foto", (object)objEmpleado.Foto ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Estado", objEmpleado.Estado);
-                cmd.Parameters.AddWithValue("@SBasicoHora", objEmpleado.SBasicoHora);
-                cmd.Parameters.AddWithValue("@SHorasExtraHora", objEmpleado.SHorasExtraHora);
-                cnx.Open();
-                r = cmd.ExecuteNonQuery();
+                using (SqlConnection connection = objCon.getConecta())
+                {
+                    SqlCommand cmd = new SqlCommand("spInsertarEmpleado", connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id_Empleado", objEmpleado.ID_Empleado);
+                    cmd.Parameters.AddWithValue("@Ape_Paterno", objEmpleado.Ape_Paterno);
+                    cmd.Parameters.AddWithValue("@Ape_Materno", objEmpleado.Ape_Materno);
+                    cmd.Parameters.AddWithValue("@Nombres", objEmpleado.Nombres);
+                    cmd.Parameters.AddWithValue("@DNI", objEmpleado.DNI);
+                    cmd.Parameters.AddWithValue("@Direccion", (object)objEmpleado.Direccion ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Foto", (object)objEmpleado.Foto ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Estado", objEmpleado.Estado);
+                    cmd.Parameters.AddWithValue("@SBasicoHora", objEmpleado.SBasicoHora);
+                    cmd.Parameters.AddWithValue("@SHorasExtraHora", objEmpleado.SHorasExtraHora);
+                    connection.Open();
+                    return cmd.ExecuteNonQuery();
+                }
             }
-            return r;
+            catch (SqlException ex)
+            {
+                throw new Exception("Error al insertar empleado: " + ex.Message, ex);
+            }
         }
 
         public int actualizarRegistro(CE.E_Empleado objEmpleado)
         {
-            int r = 0;
-            using (cnx = objCon.getConecta())
+            try
             {
-                SqlCommand cmd = new SqlCommand("spActualizarEmpleado", cnx);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Id_Empleado", objEmpleado.ID_Empleado);
-                cmd.Parameters.AddWithValue("@Ape_Paterno", objEmpleado.Ape_Paterno);
-                cmd.Parameters.AddWithValue("@Ape_Materno", objEmpleado.Ape_Materno);
-                cmd.Parameters.AddWithValue("@Nombres", objEmpleado.Nombres);
-                cmd.Parameters.AddWithValue("@DNI", objEmpleado.DNI);
-                cmd.Parameters.AddWithValue("@Direccion", (object)objEmpleado.Direccion ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Foto", (object)objEmpleado.Foto ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Estado", objEmpleado.Estado);
-                cmd.Parameters.AddWithValue("@SBasicoHora", objEmpleado.SBasicoHora);
-                cmd.Parameters.AddWithValue("@SHorasExtraHora", objEmpleado.SHorasExtraHora);
-                cnx.Open();
-                r = cmd.ExecuteNonQuery();
+                using (SqlConnection connection = objCon.getConecta())
+                {
+                    SqlCommand cmd = new SqlCommand("spActualizarEmpleado", connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id_Empleado", objEmpleado.ID_Empleado);
+                    cmd.Parameters.AddWithValue("@Ape_Paterno", objEmpleado.Ape_Paterno);
+                    cmd.Parameters.AddWithValue("@Ape_Materno", objEmpleado.Ape_Materno);
+                    cmd.Parameters.AddWithValue("@Nombres", objEmpleado.Nombres);
+                    cmd.Parameters.AddWithValue("@DNI", objEmpleado.DNI);
+                    cmd.Parameters.AddWithValue("@Direccion", (object)objEmpleado.Direccion ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Foto", (object)objEmpleado.Foto ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Estado", objEmpleado.Estado);
+                    cmd.Parameters.AddWithValue("@SBasicoHora", objEmpleado.SBasicoHora);
+                    cmd.Parameters.AddWithValue("@SHorasExtraHora", objEmpleado.SHorasExtraHora);
+                    connection.Open();
+                    return cmd.ExecuteNonQuery();
+                }
             }
-            return r;
+            catch (SqlException ex)
+            {
+                throw new Exception("Error al actualizar empleado: " + ex.Message, ex);
+            }
         }
 
         public int eliminarRegistro(string idEmpleado)
         {
-            int r = 0;
-            using (cnx = objCon.getConecta())
+            try
             {
-                SqlCommand cmd = new SqlCommand("spEliminarEmpleado", cnx);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Id_Empleado", idEmpleado);
-                cnx.Open();
-                r = cmd.ExecuteNonQuery();
+                using (SqlConnection connection = objCon.getConecta())
+                {
+                    SqlCommand cmd = new SqlCommand("spEliminarEmpleado", connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id_Empleado", idEmpleado);
+                    connection.Open();
+                    return cmd.ExecuteNonQuery();
+                }
             }
-            return r;
+            catch (SqlException ex)
+            {
+                throw new Exception("Error al eliminar empleado: " + ex.Message, ex);
+            }
         }
     }
 }

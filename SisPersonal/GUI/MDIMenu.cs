@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace GUI
@@ -6,41 +7,181 @@ namespace GUI
     public partial class MDIMenu : Form
     {
         private int childFormNumber = 0;
-        frmLogin usuario = new frmLogin();
+        private string _nombreUsuario;
+        private bool isSidebarCollapsed = false;
+        private const int ExpandedWidth = 230;
+        private const int CollapsedWidth = 60;
 
-        public MDIMenu()
+        public MDIMenu(string nombreUsuario = "")
         {
             InitializeComponent();
+            _nombreUsuario = nombreUsuario;
+            this.DoubleBuffered = true;
         }
 
         private void ApplyModernStyles()
         {
-            // Aplicar estilos modernos al formulario principal
             UIStyles.ApplyFormStyle(this);
-            
-            // Aplicar estilos al MenuStrip
             UIStyles.ApplyToolStripStyle(menuStrip);
-            
-            // Aplicar estilos al ToolStrip
             UIStyles.ApplyToolStripStyle(toolStrip);
             
-            // Configurar colores del StatusStrip
-            statusStrip.BackColor = UIStyles.White;
-            statusStrip.ForeColor = UIStyles.DarkGray;
+            pnlSidebarHeader.BackColor = UIStyles.SidebarBg;
+            btnHamburger.BackColor = UIStyles.SidebarBg;
+            pnlUser.BackColor = UIStyles.SidebarBg;
             
-            // Configurar el TreeView con estilos modernos
-            tvrMenu.BackColor = UIStyles.White;
-            tvrMenu.ForeColor = UIStyles.DarkGray;
-            tvrMenu.Font = UIStyles.BodyFont;
-            tvrMenu.BorderStyle = BorderStyle.None;
-            tvrMenu.ShowLines = false;
-            tvrMenu.ShowPlusMinus = true;
-            tvrMenu.ShowRootLines = false;
+            // Status strip styling
+            statusStrip.BackColor = UIStyles.SidebarBg;
+            statusStrip.ForeColor = Color.White;
             
-            // Configurar el SplitContainer
             splitContainer1.BackColor = UIStyles.LightGray;
-            splitContainer1.Panel1.BackColor = UIStyles.White;
+            splitContainer1.Panel1.BackColor = UIStyles.SidebarBg;
             splitContainer1.Panel2.BackColor = UIStyles.LightGray;
+
+            InitializeSidebar();
+        }
+
+        private void InitializeSidebar()
+        {
+            flpSidebarItems.Controls.Clear();
+            flpSidebarItems.BackColor = UIStyles.SidebarBg;
+            pnlSidebarHeader.BackColor = UIStyles.SidebarBg;
+
+            // Define items based on the previous tree structure
+            AddSidebarCategory("REPORTES", "graph.ico");
+            AddSidebarButton("Marcaciones", "cedialer.ico");
+            AddSidebarButton("Asistencias", "NOTE16.ICO");
+            AddSidebarButton("Tardanzas", "ProgressError.ico");
+            AddSidebarButton("Faltas", "CambiarUsuario.png");
+            AddSidebarButton("Horas Extras", "CLOCK02.ICO");
+
+            AddSidebarCategory("OPERACIONES", "MiningModel.ico");
+            AddSidebarButton("Gestionar Usuarios", "images (3).jpg");
+            AddSidebarButton("Gestionar Empleados", "images (1).jpg");
+
+            AddSidebarCategory("SALARIOS", "Calculadora.jpg");
+            AddSidebarButton("Lista General", "NOTE16.ICO");
+            AddSidebarButton("Por Trabajador", "Reporte2.png");
+
+            AddSidebarCategory("SISTEMA", "Salir.png");
+            AddSidebarButton("Salir", "Salir.png");
+        }
+
+        private void AddSidebarCategory(string text, string iconKey)
+        {
+            Label lbl = new Label
+            {
+                Text = text,
+                ForeColor = UIStyles.TextSecond,
+                Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold),
+                Padding = new Padding(15, 20, 0, 5),
+                AutoSize = false,
+                Size = new System.Drawing.Size(ExpandedWidth, 40),
+                TextAlign = System.Drawing.ContentAlignment.BottomLeft
+            };
+            flpSidebarItems.Controls.Add(lbl);
+        }
+
+        private void AddSidebarButton(string text, string iconKey)
+        {
+            Button btn = new Button
+            {
+                Text = "      " + text,
+                TextAlign = System.Drawing.ContentAlignment.MiddleLeft,
+                TextImageRelation = TextImageRelation.ImageBeforeText,
+                FlatStyle = FlatStyle.Flat,
+                ForeColor = System.Drawing.Color.White,
+                Font = UIStyles.BodyFont,
+                Size = new System.Drawing.Size(ExpandedWidth - 20, 40),
+                Margin = new Padding(10, 2, 10, 2),
+                Cursor = Cursors.Hand,
+                ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+            };
+            btn.FlatAppearance.BorderSize = 0;
+            btn.FlatAppearance.MouseOverBackColor = UIStyles.SidebarHover;
+            btn.FlatAppearance.MouseDownBackColor = UIStyles.SidebarSelection;
+
+            if (imageList1.Images.ContainsKey(iconKey))
+            {
+                btn.Image = imageList1.Images[iconKey];
+            }
+
+            btn.Click += (s, e) => NavigateTo(text);
+            btn.Tag = text; // Store text for collapse/expand
+            flpSidebarItems.Controls.Add(btn);
+        }
+
+        private void btnHamburger_Click(object sender, EventArgs e)
+        {
+            isSidebarCollapsed = !isSidebarCollapsed;
+            tmrSidebar.Start();
+        }
+
+        private void tmrSidebar_Tick(object sender, EventArgs e)
+        {
+            if (isSidebarCollapsed)
+            {
+                if (splitContainer1.SplitterDistance > CollapsedWidth)
+                {
+                    splitContainer1.SplitterDistance -= 20;
+                    if (splitContainer1.SplitterDistance < CollapsedWidth) splitContainer1.SplitterDistance = CollapsedWidth;
+                }
+                else
+                {
+                    tmrSidebar.Stop();
+                    RefreshSidebarItems();
+                }
+            }
+            else
+            {
+                if (splitContainer1.SplitterDistance < ExpandedWidth)
+                {
+                    splitContainer1.SplitterDistance += 20;
+                    if (splitContainer1.SplitterDistance > ExpandedWidth) splitContainer1.SplitterDistance = ExpandedWidth;
+                }
+                else
+                {
+                    tmrSidebar.Stop();
+                    RefreshSidebarItems();
+                }
+            }
+        }
+
+        private void RefreshSidebarItems()
+        {
+            if (isSidebarCollapsed)
+            {
+                lblTitle.Visible = false;
+                lblUser.Visible = false;
+                foreach (Control ctrl in flpSidebarItems.Controls)
+                {
+                    if (ctrl is Button btn)
+                    {
+                        btn.Text = "";
+                        btn.Size = new System.Drawing.Size(CollapsedWidth - 20, 40);
+                    }
+                    else if (ctrl is Label lbl)
+                    {
+                        lbl.Visible = false;
+                    }
+                }
+            }
+            else
+            {
+                lblTitle.Visible = true;
+                lblUser.Visible = true;
+                foreach (Control ctrl in flpSidebarItems.Controls)
+                {
+                    if (ctrl is Button btn)
+                    {
+                        btn.Text = "      " + (string)btn.Tag;
+                        btn.Size = new System.Drawing.Size(ExpandedWidth - 20, 40);
+                    }
+                    else if (ctrl is Label lbl)
+                    {
+                        lbl.Visible = true;
+                    }
+                }
+            }
         }
 
         private void ShowNewForm(object sender, EventArgs e)
@@ -75,7 +216,11 @@ namespace GUI
 
         private void ExitToolsStripMenuItem_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            if (MessageBox.Show("¿Está seguro que desea cerrar sesión?", "Sistema de Control de Personal",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                CerrarSesion();
+            }
         }
 
         private void CutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -128,80 +273,150 @@ namespace GUI
             }
         }
 
-        private void tvrMenu_DoubleClick(object sender, EventArgs e)
+        private void NavigateTo(string target)
         {
-            TreeNode node = tvrMenu.SelectedNode;
-            switch (node.Text)
+            switch (target)
             {
                 case "Marcaciones":
-                    frmReporteMarcaciones xform = new frmReporteMarcaciones();
-                    xform.MdiParent = this;
-                    splitContainer1.Panel2.Controls.Add(xform);
-                    xform.Show();
+                    CheckAndOpen<frmReporteMarcaciones>();
                     break;
                 case "Asistencias":
-                    frmViewRepMarcaciones frmAsis = new frmViewRepMarcaciones();
-                    frmAsis.MdiParent = this;
-                    splitContainer1.Panel2.Controls.Add(frmAsis);
-                    frmAsis.Show();
+                    CheckAndOpen<frmViewRepMarcaciones>();
                     break;
                 case "Tardanzas":
-                    frmTardanzas frmTar = new frmTardanzas();
-                    frmTar.MdiParent = this;
-                    splitContainer1.Panel2.Controls.Add(frmTar);
-                    frmTar.Show();
+                    CheckAndOpen<frmTardanzas>();
                     break;
                 case "Faltas":
-                    frmFaltas frmFal = new frmFaltas();
-                    frmFal.MdiParent = this;
-                    splitContainer1.Panel2.Controls.Add(frmFal);
-                    frmFal.Show();
+                    CheckAndOpen<frmFaltas>();
                     break;
                 case "Horas Extras":
-                    frmHorasExtras frmHoEx = new frmHorasExtras();
-                    frmHoEx.MdiParent = this;
-                    splitContainer1.Panel2.Controls.Add(frmHoEx);
-                    frmHoEx.Show();
+                    CheckAndOpen<frmHorasExtras>();
                     break;
                 case "Lista General":
-                    frmListaGeneral frmLisGe = new frmListaGeneral();
-                    frmLisGe.MdiParent = this;
-                    splitContainer1.Panel2.Controls.Add(frmLisGe);
-                    frmLisGe.Show();
+                    CheckAndOpen<frmListaGeneral>();
                     break;
                 case "Por Trabajador":
-                    frmPorTrabajador frmPorTra = new frmPorTrabajador();
-                    frmPorTra.MdiParent = this;
-                    splitContainer1.Panel2.Controls.Add(frmPorTra);
-                    frmPorTra.Show();
+                    CheckAndOpen<frmPorTrabajador>();
                     break;
                 case "Gestionar Usuarios":
-                    frmGestionUsuario frmGesUsu = new frmGestionUsuario();
-                    frmGesUsu.MdiParent = this;
-                    splitContainer1.Panel2.Controls.Add(frmGesUsu);
-                    frmGesUsu.Show();
+                    CheckAndOpen<frmGestionUsuario>();
                     break;
                 case "Gestionar Empleados":
-                    frmGestionEmpleados frmGesEmp = new frmGestionEmpleados();
-                    frmGesEmp.MdiParent = this;
-                    splitContainer1.Panel2.Controls.Add(frmGesEmp);
-                    frmGesEmp.Show();
+                    CheckAndOpen<frmGestionEmpleados>();
                     break;
                 case "Salir":
-                    if (MessageBox.Show("Esta seguro que desea Salir del Sistema", "Sistema de control de Personal", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    if (MessageBox.Show("¿Está seguro que desea cerrar sesión?", "Sistema de Control de Personal",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        Application.Exit();
+                        CerrarSesion();
                     }
                     break;
             }
         }
 
+        private void CheckAndOpen<T>() where T : Form, new()
+        {
+            // Buscar si ya existe una instancia de este tipo de formulario en el panel
+            foreach (Control ctrl in splitContainer1.Panel2.Controls)
+            {
+                if (ctrl is T)
+                {
+                    Form existingForm = (Form)ctrl;
+                    MessageBox.Show("El formulario '" + existingForm.Text + "' ya se encuentra activo.", 
+                                    "Aviso del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    existingForm.BringToFront();
+                    existingForm.Focus();
+                    return;
+                }
+            }
+
+            // Si no existe, lo creamos y abrimos
+            T newForm = new T();
+            OpenChildForm(newForm);
+        }
+
+        private void OpenChildForm(Form childForm)
+        {
+            // Configuramos el formulario para que se comporte como una ventana dentro del panel
+            childForm.MdiParent = this;
+            splitContainer1.Panel2.Controls.Add(childForm);
+            
+            // REQUERIMIENTO: No debe maximizarse
+            childForm.WindowState = FormWindowState.Normal;
+            childForm.Dock = DockStyle.None; // Quitamos el Fill para que no ocupe todo el espacio
+            
+            // REQUERIMIENTO: Mostrar sobre los anteriores
+            childForm.BringToFront();
+            
+            // Estilo de ventana para que se vea "sobre" el fondo
+            childForm.FormBorderStyle = FormBorderStyle.FixedSingle;
+            childForm.StartPosition = FormStartPosition.CenterParent;
+            
+            // Centrar manualmente en el panel si es posible
+            int x = (splitContainer1.Panel2.Width - childForm.Width) / 2;
+            int y = (splitContainer1.Panel2.Height - childForm.Height) / 2;
+            childForm.Location = new System.Drawing.Point(Math.Max(0, x), Math.Max(0, y));
+
+            childForm.Show();
+        }
+
         private void MDIMenu_Load(object sender, EventArgs e)
         {
             ApplyModernStyles();
-            string usu;
-            usu = usuario._Usuario;
-            tsEstado.Text = "USUARIO ACTUAL DEL SISTEMA: " + usu;
+            tsEstado.Text = "USUARIO: " + _nombreUsuario;
+            lblUser.Text = "👤 " + _nombreUsuario;
+            
+            // Set initial state
+            RefreshSidebarItems();
+        }
+
+        /// <summary>
+        /// Cierra la sesión: oculta el menú y vuelve a mostrar el formulario de login.
+        /// NO cierra la aplicación.
+        /// </summary>
+        private void CerrarSesion()
+        {
+            // Cerrar todos los formularios MDI hijos
+            foreach (Form child in this.MdiChildren)
+                child.Close();
+
+            // Cerrar formularios no-MDI alojados en el panel
+            var panelForms = new System.Collections.Generic.List<Control>();
+            foreach (Control ctrl in splitContainer1.Panel2.Controls)
+                panelForms.Add(ctrl);
+            foreach (Control ctrl in panelForms)
+            {
+                if (ctrl is Form f) f.Close();
+            }
+            splitContainer1.Panel2.Controls.Clear();
+
+            // Buscar y mostrar el login
+            foreach (Form f in Application.OpenForms)
+            {
+                if (f is frmLogin login)
+                {
+                    login.ReiniciarFormulario();
+                    login.Show();
+                    login.BringToFront();
+                    break;
+                }
+            }
+
+            this.Hide();
+        }
+
+        private void MDIMenu_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Interceptar el botón X para que no cierre la app: actuar como cierre de sesión
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                if (MessageBox.Show("¿Está seguro que desea cerrar sesión?", "Sistema de Control de Personal",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    CerrarSesion();
+                }
+            }
         }
     }
 }

@@ -48,13 +48,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Conexion.cs" />
     <Compile Include="D_Empleado.cs" />
     <Compile Include="D_Marcaciones.cs" />
     <Compile Include="D_Usuario.cs" />
     <Compile Include="ID_Empleado.cs" />
     <Compile Include="ID_Marcaciones.cs" />
     <Compile Include="ID_Usuario.cs" />
-    <Compile Include="Conexion.cs" />
+    <Compile Include="PasswordMigration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

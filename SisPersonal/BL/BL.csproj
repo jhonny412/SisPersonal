@@ -41,9 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthenticationLogger.cs" />
     <Compile Include="BL_Empleado.cs" />
     <Compile Include="BL_Marcacion.cs" />
     <Compile Include="BL_Usuario.cs" />
+    <Compile Include="RateLimiter.cs" />
+    <Compile Include="SecurityHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

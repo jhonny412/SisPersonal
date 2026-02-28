@@ -2,6 +2,7 @@
 using CE;
 using System;
 using System.Windows.Forms;
+using Serilog;
 
 namespace GUI
 {
@@ -31,6 +32,7 @@ namespace GUI
             DateTime fechaActual = DateTime.Now;
             string fechaFormateada = fechaActual.ToString("dd/MM/yyyy");
             objEEmp.DNI = txtDni.Text;
+            objEEmp.Nombres = txtDni.Text; // spBuscarEmpleado usa objEmpleado.Nombres como @criterio
             objEEmp.Fecha = Convert.ToDateTime(fechaFormateada);
 
             var totalRegistro = objBLEmp.buscarPersona(objEEmp);
@@ -55,7 +57,7 @@ namespace GUI
                 if (totalRegistro.Rows.Count > 0)
                 {
                     ActualizarEstadoObservacion();
-                    lblNombres.Text = totalRegistro.Rows[0]["Nombres y Apellidos"].ToString();
+                    lblNombres.Text = totalRegistro.Rows[0]["Nombres"].ToString() + " " + totalRegistro.Rows[0]["Ape_Paterno"].ToString() + " " + totalRegistro.Rows[0]["Ape_Materno"].ToString();
                     btnGrabar.Enabled = true;
                     chkEntrada.Enabled = true;
 
@@ -223,11 +225,6 @@ namespace GUI
             lblHora.Text = DateTime.Now.ToString("T");
         }
 
-        private void rbtIngreso_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void BtnGrabar_Click(object sender, EventArgs e)
         {
             if (chkEntrada.Checked)
@@ -312,13 +309,15 @@ namespace GUI
 
             //INICIO
 
+            TimeSpan tr = TimeSpan.Zero;
             if (HSR == "00:00:00" || HIR == "00:00:00")
             {
                 objMar.TH_Refrigerio = "00:00:00";
             }
             else
             {
-                objMar.TH_Refrigerio = (Convert.ToDateTime(HIR) - Convert.ToDateTime(HSR)).ToString();
+                tr = Convert.ToDateTime(HIR) - Convert.ToDateTime(HSR);
+                objMar.TH_Refrigerio = tr.ToString();
             }
 
             if (HS == "00:00:00" || HI == "00:00:00")
@@ -327,7 +326,9 @@ namespace GUI
             }
             else
             {
-                objMar.TH_Trabajadas = (Convert.ToDateTime(HS) - Convert.ToDateTime(HI)).ToString();
+                TimeSpan tt = Convert.ToDateTime(HS) - Convert.ToDateTime(HI);
+                tt = tt.Subtract(tr);
+                objMar.TH_Trabajadas = tt.ToString();
             }
             //FIN
             objMar.Observacion = txtObservacion.Text;
@@ -366,14 +367,14 @@ namespace GUI
             }
             catch (Exception ex)
             {
+                Log.Error(ex, "Error al procesar marcación para el empleado: {IdEmpleado}", lblIdPersonal.Text);
                 MessageBox.Show(ex.Message, " CONTROL DE ASISTENCIAS", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void frmMarcacion_FormClosed(object sender, FormClosedEventArgs e)
         {
-            this.Dispose();
-            this.Close();
+            // El cierre de la aplicación se maneja desde el delegado en frmLogin
         }
 
         private void txtObservacion_TextChanged(object sender, EventArgs e)
@@ -403,6 +404,10 @@ namespace GUI
                 txtObservacion.Text = string.Empty;
         }
 
+        private void lblNombres_Click(object sender, EventArgs e)
+        {
+
+        }
         private void chkEntrada_CheckedChanged(object sender, EventArgs e)
         {
             if (chkEntrada.Checked)

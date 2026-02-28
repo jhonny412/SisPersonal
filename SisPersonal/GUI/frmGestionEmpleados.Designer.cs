@@ -62,6 +62,7 @@
             this.btnGrabar = new System.Windows.Forms.Button();
             this.btnNuevo = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.btnExportar = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -430,6 +431,7 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.btnExportar);
             this.groupBox5.Controls.Add(this.button1);
             this.groupBox5.Controls.Add(this.textBox1);
             this.groupBox5.Controls.Add(this.label9);
@@ -441,12 +443,27 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Lista de empleados";
             // 
+            // btnExportar
+            // 
+            this.btnExportar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnExportar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(254)));
+            this.btnExportar.Image = ((System.Drawing.Image)(resources.GetObject("btnExportar.Image")));
+            this.btnExportar.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnExportar.Location = new System.Drawing.Point(781, 17);
+            this.btnExportar.Name = "btnExportar";
+            this.btnExportar.Size = new System.Drawing.Size(110, 39);
+            this.btnExportar.TabIndex = 18;
+            this.btnExportar.Text = "Exportar";
+            this.btnExportar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnExportar.UseVisualStyleBackColor = true;
+            this.btnExportar.Click += new System.EventHandler(this.btnExportar_Click);
+            // 
             // button1
             // 
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(254)));
             this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
-            this.button1.Location = new System.Drawing.Point(660, 16);
+            this.button1.Location = new System.Drawing.Point(696, 17);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(59, 39);
             this.button1.TabIndex = 17;
@@ -500,6 +517,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "frmGestionEmpleados";
             this.Text = "frmGestionEmpleados";
@@ -559,5 +577,6 @@
         private System.Windows.Forms.TextBox txtId;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button btnCancelar;
+        private System.Windows.Forms.Button btnExportar;
     }
 }

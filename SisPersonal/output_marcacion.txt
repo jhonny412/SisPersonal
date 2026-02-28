@@ -1,0 +1,126 @@
+Text                                                                                                                                                                                                                                                           
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE PROCEDURE [dbo].[sp_InsertMarcacion]
+                                                                                                                                                                                                                  
+    --@Id_Marcacion INT,
+                                                                                                                                                                                                                                     
+    @Id_Empleado CHAR(10),
+                                                                                                                                                                                                                                   
+    @Fecha DATE,
+                                                                                                                                                                                                                                             
+    @H_Ingreso TIME,
+                                                                                                                                                                                                                                         
+    @HS_Refrigerio TIME,
+                                                                                                                                                                                                                                     
+    @HI_Refrigerio TIME,
+                                                                                                                                                                                                                                     
+    @H_Salida TIME,
+                                                                                                                                                                                                                                          
+    @TH_Refrigerio TIME,
+                                                                                                                                                                                                                                     
+    @TH_Trabajadas TIME,
+                                                                                                                                                                                                                                     
+    @Observacion VARCHAR(255),
+                                                                                                                                                                                                                               
+    @MENSAJE NVARCHAR(255) OUTPUT
+                                                                                                                                                                                                                            
+AS
+                                                                                                                                                                                                                                                           
+BEGIN
+                                                                                                                                                                                                                                                        
+    BEGIN TRY
+                                                                                                                                                                                                                                                
+        DECLARE @TOPIDMAR INT;
+                                                                                                                                                                                                                               
+        DECLARE @Id_Marcacion CHAR(5)
+                                                                                                                                                                                                                        
+        -- Selecciona el Id_Marcacion más reciente para el empleado y la fecha especificada
+                                                                                                                                                                  
+        SET @TOPIDMAR = (SELECT TOP 1 Id_Marcacion FROM Marcaciones M WHERE M.Id_Empleado = @Id_Empleado AND M.Fecha = @Fecha ORDER BY Id_Marcacion DESC);
+                                                                                                   
+        SET @Id_Marcacion = @TOPIDMAR;
+                                                                                                                                                                                                                       
+
+                                                                                                                                                                                                                                                             
+        -- Verifica si ya existe una marcación para el empleado en la fecha dada
+                                                                                                                                                                             
+        SELECT M.Id_Empleado, M.Fecha, M.Id_Marcacion
+                                                                                                                                                                                                        
+        INTO #TEMPORAL
+                                                                                                                                                                                                                                       
+        FROM Marcaciones M
+                                                                                                                                                                                                                                   
+        WHERE M.Id_Empleado = @Id_Empleado
+                                                                                                                                                                                                                   
+        AND M.Fecha = @Fecha;
+                                                                                                                                                                                                                                
+
+                                                                                                                                                                                                                                                             
+        IF EXISTS(SELECT 1 FROM #TEMPORAL)
+                                                                                                                                                                                                                   
+        BEGIN
+                                                                                                                                                                                                                                                
+            -- Actualiza la marcación existente
+                                                                                                                                                                                                              
+            UPDATE Marcaciones 
+                                                                                                                                                                                                                              
+            SET H_Ingreso = @H_Ingreso, 
+                                                                                                                                                                                                                     
+                HS_Refrigerio = @HS_Refrigerio, 
+                                                                                                                                                                                                             
+                HI_Refrigerio = @HI_Refrigerio, 
+                                                                                                                                                                                                             
+                H_Salida = @H_Salida, 
+                                                                                                                                                                                                                       
+                TH_Refrigerio = @TH_Refrigerio, 
+                                                                                                                                                                                                             
+                TH_Trabajadas = @TH_Trabajadas, 
+                                                                                                                                                                                                             
+                Observacion = @Observacion
+                                                                                                                                                                                                                   
+            WHERE Id_Marcacion = @Id_Marcacion
+                                                                                                                                                                                                               
+            AND Id_Empleado = @Id_Empleado
+                                                                                                                                                                                                                   
+            AND Fecha = @Fecha;
+                                                                                                                                                                                                                              
+        END
+                                                                                                                                                                                                                                                  
+        ELSE
+                                                                                                                                                                                                                                                 
+        BEGIN
+                                                                                                                                                                                                                                                
+            -- Inserta una nueva marcación si no existe
+                                                                                                                                                                                                      
+            INSERT INTO Marcaciones (Id_Empleado, Fecha, H_Ingreso, HS_Refrigerio, HI_Refrigerio, H_Salida, TH_Refrigerio, TH_Trabajadas, Observacion)
+                                                                                                       
+            VALUES (@Id_Empleado, @Fecha, @H_Ingreso, @HS_Refrigerio, @HI_Refrigerio, @H_Salida, @TH_Refrigerio, @TH_Trabajadas, @Observacion);
+                                                                                                              
+        END
+                                                                                                                                                                                                                                                  
+
+                                                                                                                                                                                                                                                             
+        SET @MENSAJE = 'La marcacion se realizó con éxito.';
+                                                                                                                                                                                                 
+    END TRY
+                                                                                                                                                                                                                                                  
+    BEGIN CATCH
+                                                                                                                                                                                                                                              
+        SET @MENSAJE = 'Error en la inserción: ' + ERROR_MESSAGE();
+                                                                                                                                                                                          
+    END CATCH
+                                                                                                                                                                                                                                                
+
+                                                                                                                                                                                                                                                             
+    -- Elimina la tabla temporal
+                                                                                                                                                                                                                             
+    IF OBJECT_ID('tempdb..#TEMPORAL') IS NOT NULL
+                                                                                                                                                                                                            
+    BEGIN
+                                                                                                                                                                                                                                                    
+        DROP TABLE #TEMPORAL;
+                                                                                                                                                                                                                                
+    END
+                                                                                                                                                                                                                                                      
+END
+                                                                                                                                                                                                                                                          

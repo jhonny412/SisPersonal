@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Serilog;
 namespace GUI
 {
     public partial class frmViewRepMarcaciones : Form
@@ -25,6 +26,7 @@ namespace GUI
             }
             catch (Exception ex)
             {
+                Log.Error(ex, "Error al cargar el reporte de marcaciones. Rango: {Desde} - {Hasta}", desde, hasta);
                 MessageBox.Show("Error al cargar el reporte: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

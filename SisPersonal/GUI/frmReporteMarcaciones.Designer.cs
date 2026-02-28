@@ -37,6 +37,9 @@
             this.cboTrabajador = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkExtras = new System.Windows.Forms.CheckBox();
+            this.chkFaltas = new System.Windows.Forms.CheckBox();
+            this.chkTardanzas = new System.Windows.Forms.CheckBox();
             this.chkTodos = new System.Windows.Forms.CheckBox();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.dtpHasta = new System.Windows.Forms.DateTimePicker();
@@ -60,9 +63,9 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(410, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(328, 25);
+            this.label1.Size = new System.Drawing.Size(421, 25);
             this.label1.TabIndex = 12;
-            this.label1.Text = "Reporte General de Marcaciones";
+            this.label1.Text = "REPORTE GENERAL DE MARCACIONES";
             // 
             // btnSalir
             // 
@@ -104,7 +107,7 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(12, 67);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(358, 74);
+            this.groupBox1.Size = new System.Drawing.Size(319, 74);
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Por Trabajador";
@@ -115,7 +118,7 @@
             this.cboTrabajador.FormattingEnabled = true;
             this.cboTrabajador.Location = new System.Drawing.Point(97, 27);
             this.cboTrabajador.Name = "cboTrabajador";
-            this.cboTrabajador.Size = new System.Drawing.Size(241, 21);
+            this.cboTrabajador.Size = new System.Drawing.Size(208, 21);
             this.cboTrabajador.TabIndex = 16;
             this.cboTrabajador.SelectedIndexChanged += new System.EventHandler(this.cboTrabajador_SelectedIndexChanged);
             // 
@@ -131,24 +134,60 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.chkExtras);
+            this.groupBox2.Controls.Add(this.chkFaltas);
+            this.groupBox2.Controls.Add(this.chkTardanzas);
             this.groupBox2.Controls.Add(this.chkTodos);
             this.groupBox2.Controls.Add(this.btnBuscar);
             this.groupBox2.Controls.Add(this.dtpHasta);
             this.groupBox2.Controls.Add(this.dtpDesde);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Location = new System.Drawing.Point(397, 67);
+            this.groupBox2.Location = new System.Drawing.Point(337, 67);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(838, 74);
+            this.groupBox2.Size = new System.Drawing.Size(898, 74);
             this.groupBox2.TabIndex = 13;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Por Fechas";
+            // 
+            // chkExtras
+            // 
+            this.chkExtras.AutoSize = true;
+            this.chkExtras.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(254)));
+            this.chkExtras.Location = new System.Drawing.Point(642, 37);
+            this.chkExtras.Name = "chkExtras";
+            this.chkExtras.Size = new System.Drawing.Size(161, 17);
+            this.chkExtras.TabIndex = 18;
+            this.chkExtras.Text = "RESALTAR H. EXTRAS";
+            this.chkExtras.UseVisualStyleBackColor = true;
+            // 
+            // chkFaltas
+            // 
+            this.chkFaltas.AutoSize = true;
+            this.chkFaltas.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(254)));
+            this.chkFaltas.Location = new System.Drawing.Point(642, 14);
+            this.chkFaltas.Name = "chkFaltas";
+            this.chkFaltas.Size = new System.Drawing.Size(170, 17);
+            this.chkFaltas.TabIndex = 17;
+            this.chkFaltas.Text = "RESALTAR TARDANZAS";
+            this.chkFaltas.UseVisualStyleBackColor = true;
+            // 
+            // chkTardanzas
+            // 
+            this.chkTardanzas.AutoSize = true;
+            this.chkTardanzas.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(254)));
+            this.chkTardanzas.Location = new System.Drawing.Point(393, 37);
+            this.chkTardanzas.Name = "chkTardanzas";
+            this.chkTardanzas.Size = new System.Drawing.Size(170, 17);
+            this.chkTardanzas.TabIndex = 16;
+            this.chkTardanzas.Text = "RESALTAR TARDANZAS";
+            this.chkTardanzas.UseVisualStyleBackColor = true;
             // 
             // chkTodos
             // 
             this.chkTodos.AutoSize = true;
             this.chkTodos.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(254)));
-            this.chkTodos.Location = new System.Drawing.Point(455, 29);
+            this.chkTodos.Location = new System.Drawing.Point(393, 14);
             this.chkTodos.Name = "chkTodos";
             this.chkTodos.Size = new System.Drawing.Size(224, 17);
             this.chkTodos.TabIndex = 15;
@@ -161,7 +200,7 @@
             this.btnBuscar.BackColor = System.Drawing.Color.LightSteelBlue;
             this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBuscar.Image = ((System.Drawing.Image)(resources.GetObject("btnBuscar.Image")));
-            this.btnBuscar.Location = new System.Drawing.Point(699, 15);
+            this.btnBuscar.Location = new System.Drawing.Point(849, 19);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(43, 43);
             this.btnBuscar.TabIndex = 14;
@@ -173,10 +212,10 @@
             this.dtpHasta.AllowDrop = true;
             this.dtpHasta.CustomFormat = "dd/MM/yyyy";
             this.dtpHasta.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpHasta.Location = new System.Drawing.Point(275, 27);
+            this.dtpHasta.Location = new System.Drawing.Point(246, 27);
             this.dtpHasta.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.dtpHasta.Name = "dtpHasta";
-            this.dtpHasta.Size = new System.Drawing.Size(160, 20);
+            this.dtpHasta.Size = new System.Drawing.Size(127, 20);
             this.dtpHasta.TabIndex = 1;
             this.dtpHasta.Value = new System.DateTime(2017, 8, 29, 0, 0, 0, 0);
             // 
@@ -188,7 +227,7 @@
             this.dtpDesde.Location = new System.Drawing.Point(60, 27);
             this.dtpDesde.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.dtpDesde.Name = "dtpDesde";
-            this.dtpDesde.Size = new System.Drawing.Size(139, 20);
+            this.dtpDesde.Size = new System.Drawing.Size(122, 20);
             this.dtpDesde.TabIndex = 1;
             this.dtpDesde.Value = new System.DateTime(2017, 11, 15, 0, 0, 0, 0);
             // 
@@ -196,7 +235,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(254)));
-            this.label4.Location = new System.Drawing.Point(221, 30);
+            this.label4.Location = new System.Drawing.Point(192, 30);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(52, 13);
             this.label4.TabIndex = 0;
@@ -240,7 +279,7 @@
             this.dgvMarcacion.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvMarcacion.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
+            this.dgvMarcacion.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvMarcacion.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvMarcacion.BackgroundColor = System.Drawing.Color.White;
             this.dgvMarcacion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -267,6 +306,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSalir);
             this.Controls.Add(this.btnExcel);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmReporteMarcaciones";
             this.Text = "Reporte de Marcaciónes";
             this.Load += new System.EventHandler(this.frmReporteMarcaciones_Load);
@@ -299,5 +339,8 @@
         private System.Windows.Forms.DataGridView dgvMarcacion;
         private System.Windows.Forms.ComboBox cboTrabajador;
         private System.Windows.Forms.CheckBox chkTodos;
+        private System.Windows.Forms.CheckBox chkTardanzas;
+        private System.Windows.Forms.CheckBox chkExtras;
+        private System.Windows.Forms.CheckBox chkFaltas;
     }
 }

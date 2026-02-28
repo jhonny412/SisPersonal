@@ -5,6 +5,8 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Data;
+using Serilog;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace GUI
 {
@@ -27,7 +29,11 @@ namespace GUI
                 ofd.Filter = "Imagen (*.jpg, *.png)|*.jpg;*.png|All files (*.*)|*.*";
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    pbxFoto.Image = Image.FromFile(ofd.FileName);
+                    // Cargar imagen sin bloquear el archivo original
+                    using (var tempImg = Image.FromFile(ofd.FileName))
+                    {
+                        pbxFoto.Image = new Bitmap(tempImg);
+                    }
                 }
             }
             catch (Exception ex)
@@ -41,7 +47,7 @@ namespace GUI
             ApplyModernStyles();
             listar();
             habilitarCampos(false);
-            
+
             // Establecer dimensiones fijas
             this.Size = new Size(1037, 630);
             this.MinimumSize = new Size(1037, 630);
@@ -59,6 +65,14 @@ namespace GUI
             if (dgvEmpleados.Columns.Contains("Foto"))
             {
                 dgvEmpleados.Columns["Foto"].Visible = false;
+            }
+            if (dgvEmpleados.Columns.Contains("SBasicoHora"))
+            {
+                dgvEmpleados.Columns["SBasicoHora"].DefaultCellStyle.Format = "N2";
+            }
+            if (dgvEmpleados.Columns.Contains("SHorasExtraHora"))
+            {
+                dgvEmpleados.Columns["SHorasExtraHora"].DefaultCellStyle.Format = "N2";
             }
         }
 
@@ -90,7 +104,7 @@ namespace GUI
             habilitarCampos(true);
             txtNombres.Focus();
             // Generar un ID temporal para ejemplo o dejar que el SP lo maneje si es necesario
-            txtId.Text = "E" + DateTime.Now.ToString("mmssfff"); 
+            txtId.Text = "E" + DateTime.Now.ToString("mmssfff");
         }
 
         private void btnGrabar_Click(object sender, EventArgs e)
@@ -118,7 +132,12 @@ namespace GUI
                 {
                     using (MemoryStream ms = new MemoryStream())
                     {
-                        pbxFoto.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        // Crear una copia de la imagen para evitar el "Error genérico en GDI+"
+                        // que ocurre si la imagen original está vinculada a un stream cerrado.
+                        using (Bitmap tempBmp = new Bitmap(pbxFoto.Image))
+                        {
+                            tempBmp.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        }
                         objEEmp.Foto = ms.ToArray();
                     }
                 }
@@ -148,6 +167,7 @@ namespace GUI
             }
             catch (Exception ex)
             {
+                Log.Error(ex, "Error al grabar empleado. Modo: {Mode}, ID: {Id}", mode, txtId.Text);
                 MessageBox.Show("Error al grabar: " + ex.Message);
             }
         }
@@ -204,9 +224,31 @@ namespace GUI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            // Búsqueda
-            objEEmp.Nombres = textBox1.Text;
-            dgvEmpleados.DataSource = objEmp.buscarPersona(objEEmp);
+            string criterio = textBox1.Text.Trim();
+            try
+            {
+                Log.Information("Iniciando búsqueda de empleados con criterio: {Criterio}", criterio);
+
+                E_Empleado searchParam = new E_Empleado { Nombres = criterio };
+                DataTable dt = objEmp.buscarPersona(searchParam);
+                dgvEmpleados.DataSource = dt;
+
+                int count = dt.Rows.Count;
+                if (count == 0 && !string.IsNullOrEmpty(criterio))
+                {
+                    Log.Warning("Búsqueda sin resultados para: {Criterio}", criterio);
+                    MessageBox.Show("No se encontraron resultados para: " + criterio, "Búsqueda", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    Log.Information("Búsqueda finalizada. Se encontraron {Count} registros para el criterio: {Criterio}", count, criterio);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error crítico durante la búsqueda de empleados. Criterio: {Criterio}", criterio);
+                MessageBox.Show("Error en la búsqueda: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void dgvEmpleados_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -219,9 +261,9 @@ namespace GUI
                 txtApemat.Text = dgvEmpleados.CurrentRow.Cells["Ape_Materno"].Value.ToString();
                 txtDNI.Text = dgvEmpleados.CurrentRow.Cells["DNI"].Value.ToString();
                 txtDireccion.Text = dgvEmpleados.CurrentRow.Cells["Direccion"].Value.ToString();
-                txtBasico.Text = dgvEmpleados.CurrentRow.Cells["SBasicoHora"].Value.ToString();
-                txtHE.Text = dgvEmpleados.CurrentRow.Cells["SHorasExtraHora"].Value.ToString();
-                
+                txtBasico.Text = Convert.ToDecimal(dgvEmpleados.CurrentRow.Cells["SBasicoHora"].Value).ToString("N2");
+                txtHE.Text = Convert.ToDecimal(dgvEmpleados.CurrentRow.Cells["SHorasExtraHora"].Value).ToString("N2");
+
                 bool estado = Convert.ToBoolean(dgvEmpleados.CurrentRow.Cells["Estado"].Value);
                 chkActivo.Checked = estado;
                 chkInactivo.Checked = !estado;
@@ -232,13 +274,149 @@ namespace GUI
                     byte[] img = (byte[])dgvEmpleados.CurrentRow.Cells["Foto"].Value;
                     using (MemoryStream ms = new MemoryStream(img))
                     {
-                        pbxFoto.Image = Image.FromStream(ms);
+                        pbxFoto.Image = new Bitmap(ms);
                     }
                 }
                 else
                 {
                     pbxFoto.Image = null;
                 }
+            }
+        }
+        private void ExportToExcel(DataGridView dgv, string filePath)
+        {
+            Excel.Application excelApp = null;
+            Excel.Workbooks workbooks = null;
+            Excel.Workbook workbook = null;
+            Excel.Worksheet worksheet = null;
+
+            try
+            {
+                excelApp = new Excel.Application();
+                workbooks = excelApp.Workbooks;
+                workbook = workbooks.Add(Type.Missing);
+                worksheet = (Excel.Worksheet)workbook.ActiveSheet;
+                worksheet.Name = "Empleados";
+
+                int colIndex = 1;
+                // Exportar encabezados
+                for (int i = 0; i < dgv.Columns.Count; i++)
+                {
+                    if (!dgv.Columns[i].Visible) continue;
+
+                    Excel.Range headerCell = (Excel.Range)worksheet.Cells[1, colIndex];
+                    headerCell.Value = dgv.Columns[i].HeaderText;
+                    headerCell.Font.Bold = true;
+
+                    // Colores desde la grilla (o UIStyles si están vacíos)
+                    Color backColor = dgv.ColumnHeadersDefaultCellStyle.BackColor;
+                    Color foreColor = dgv.ColumnHeadersDefaultCellStyle.ForeColor;
+
+                    if (backColor.IsEmpty || backColor.A == 0) backColor = UIStyles.BrandTeal;
+                    if (foreColor.IsEmpty || foreColor.A == 0) foreColor = Color.White;
+
+                    headerCell.Interior.Color = System.Drawing.ColorTranslator.ToOle(backColor);
+                    headerCell.Font.Color = System.Drawing.ColorTranslator.ToOle(foreColor);
+
+                    colIndex++;
+                }
+
+                // Exportar datos
+                for (int i = 0; i < dgv.Rows.Count; i++)
+                {
+                    colIndex = 1;
+                    for (int j = 0; j < dgv.Columns.Count; j++)
+                    {
+                        if (!dgv.Columns[j].Visible) continue;
+
+                        Excel.Range dataCell = (Excel.Range)worksheet.Cells[i + 2, colIndex];
+                        var value = dgv.Rows[i].Cells[j].Value;
+
+                        // Formatear según el tipo
+                        if (value != null && value != DBNull.Value)
+                        {
+                            if (dgv.Columns[j].ValueType == typeof(decimal) || dgv.Columns[j].ValueType == typeof(double))
+                            {
+                                dataCell.Value = value;
+                                dataCell.NumberFormat = "#,##0.00";
+                            }
+                            else if (dgv.Columns[j].ValueType == typeof(DateTime))
+                            {
+                                dataCell.Value = value;
+                                dataCell.NumberFormat = "dd/mm/yyyy";
+                            }
+                            else
+                            {
+                                dataCell.Value = value.ToString();
+                            }
+                        }
+
+                        // Colores intercalados desde la grilla
+                        if (i % 2 != 0)
+                        {
+                            Color altColor = dgv.AlternatingRowsDefaultCellStyle.BackColor;
+                            if (altColor.IsEmpty || altColor.A == 0) altColor = UIStyles.BrandPinkBg;
+                            dataCell.Interior.Color = System.Drawing.ColorTranslator.ToOle(altColor);
+                        }
+
+                        colIndex++;
+                    }
+                }
+
+                Excel.Range fullRange = worksheet.Range[worksheet.Cells[1, 1], worksheet.Cells[dgv.Rows.Count + 1, colIndex - 1]];
+                fullRange.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                fullRange.Columns.AutoFit();
+
+                workbook.SaveAs(filePath);
+            }
+            finally
+            {
+                if (workbook != null)
+                {
+                    workbook.Close(false);
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(workbook);
+                }
+                if (workbooks != null)
+                {
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(workbooks);
+                }
+                if (excelApp != null)
+                {
+                    excelApp.Quit();
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
+                }
+                if (worksheet != null)
+                {
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(worksheet);
+                }
+            }
+        }
+
+        private void btnExportar_Click(object sender, EventArgs e)
+        {
+            if (dgvEmpleados.Rows.Count == 0)
+            {
+                MessageBox.Show("No hay datos para exportar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                using (SaveFileDialog sfd = new SaveFileDialog())
+                {
+                    sfd.Filter = "Excel Documents (*.xlsx)|*.xlsx";
+                    sfd.FileName = "Reporte_Empleados_" + DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
+                        ExportToExcel(dgvEmpleados, sfd.FileName);
+                        MessageBox.Show("Datos exportados correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error al exportar a Excel");
+                MessageBox.Show("Error al exportar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

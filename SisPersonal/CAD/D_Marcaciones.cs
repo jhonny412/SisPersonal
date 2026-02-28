@@ -35,7 +35,7 @@ namespace CAD
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     //cmd.Parameters.Add("@Id_Marcacion", SqlDbType.Char, 5).Value = obj.Id_Marcacion;
-                    cmd.Parameters.Add("@Id_Empleado", SqlDbType.Char, 5).Value = obj.Id_Empleado;
+                    cmd.Parameters.Add("@Id_Empleado", SqlDbType.VarChar, 10).Value = obj.Id_Empleado;
                     cmd.Parameters.Add("@Fecha", SqlDbType.DateTime).Value = obj.Fecha;
                     cmd.Parameters.Add("@H_Ingreso", SqlDbType.VarChar, 20).Value = obj.H_Ingreso;
                     cmd.Parameters.Add("@HS_Refrigerio", SqlDbType.VarChar, 20).Value = obj.HS_Refrigerio;

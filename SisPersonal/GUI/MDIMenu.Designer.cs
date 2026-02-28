@@ -30,28 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MDIMenu));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Marcaciones");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Asistencias");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Tardanzas");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Faltas");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Horas Extras");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Reportes", new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4,
-            treeNode5});
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Lista General");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Por Trabajador");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Calculos de Salario", new System.Windows.Forms.TreeNode[] {
-            treeNode7,
-            treeNode8});
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Gestionar Usuarios");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Gestionar Empleados");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Operaciones", new System.Windows.Forms.TreeNode[] {
-            treeNode10,
-            treeNode11});
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Salir");
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -105,7 +83,14 @@
             this.tsEstado = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.tvrMenu = new System.Windows.Forms.TreeView();
+            this.pnlSidebar = new System.Windows.Forms.Panel();
+            this.flpSidebarItems = new System.Windows.Forms.FlowLayoutPanel();
+            this.pnlUser = new System.Windows.Forms.Panel();
+            this.lblUser = new System.Windows.Forms.Label();
+            this.pnlSidebarHeader = new System.Windows.Forms.Panel();
+            this.lblTitle = new System.Windows.Forms.Label();
+            this.btnHamburger = new System.Windows.Forms.Button();
+            this.tmrSidebar = new System.Windows.Forms.Timer(this.components);
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.menuStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
@@ -113,6 +98,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.pnlSidebar.SuspendLayout();
+            this.pnlUser.SuspendLayout();
+            this.pnlSidebarHeader.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -565,7 +553,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.tvrMenu);
+            this.splitContainer1.Panel1.Controls.Add(this.pnlSidebar);
             // 
             // splitContainer1.Panel2
             // 
@@ -576,63 +564,87 @@
             this.splitContainer1.SplitterDistance = 230;
             this.splitContainer1.TabIndex = 4;
             // 
-            // tvrMenu
+            // pnlSidebar
             // 
-            this.tvrMenu.BackColor = System.Drawing.Color.White;
-            this.tvrMenu.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tvrMenu.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tvrMenu.ImageIndex = 0;
-            this.tvrMenu.ImageList = this.imageList1;
-            this.tvrMenu.Location = new System.Drawing.Point(0, 0);
-            this.tvrMenu.Name = "tvrMenu";
-            treeNode1.ImageKey = "cedialer.ico";
-            treeNode1.Name = "ndMarcaciones";
-            treeNode1.Text = "Marcaciones";
-            treeNode2.ImageKey = "NOTE16.ICO";
-            treeNode2.Name = "ndAsistencias";
-            treeNode2.Text = "Asistencias";
-            treeNode3.ImageKey = "ProgressError.ico";
-            treeNode3.Name = "ndTardanzas";
-            treeNode3.Text = "Tardanzas";
-            treeNode4.ImageKey = "CambiarUsuario.png";
-            treeNode4.Name = "ndFaltas";
-            treeNode4.Text = "Faltas";
-            treeNode5.ImageKey = "CLOCK02.ICO";
-            treeNode5.Name = "ndHorasExtras";
-            treeNode5.Text = "Horas Extras";
-            treeNode6.ImageKey = "graph.ico";
-            treeNode6.Name = "ndReporte";
-            treeNode6.Text = "Reportes";
-            treeNode7.ImageKey = "NOTE16.ICO";
-            treeNode7.Name = "ndListaGeneral";
-            treeNode7.Text = "Lista General";
-            treeNode8.ImageKey = "Reporte2.png";
-            treeNode8.Name = "ndPorTrabajador";
-            treeNode8.Text = "Por Trabajador";
-            treeNode9.ImageKey = "Calculadora.jpg";
-            treeNode9.Name = "ndSalarios";
-            treeNode9.Text = "Calculos de Salario";
-            treeNode10.ImageKey = "images (3).jpg";
-            treeNode10.Name = "ndGestionUsuarios";
-            treeNode10.Text = "Gestionar Usuarios";
-            treeNode11.ImageKey = "images (1).jpg";
-            treeNode11.Name = "ndGestionEmpleados";
-            treeNode11.Text = "Gestionar Empleados";
-            treeNode12.ImageKey = "MiningModel.ico";
-            treeNode12.Name = "ndOperaciones";
-            treeNode12.Text = "Operaciones";
-            treeNode13.ImageKey = "Salir.png";
-            treeNode13.Name = "ndSalir";
-            treeNode13.Text = "Salir";
-            this.tvrMenu.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode6,
-            treeNode9,
-            treeNode12,
-            treeNode13});
-            this.tvrMenu.SelectedImageIndex = 0;
-            this.tvrMenu.Size = new System.Drawing.Size(230, 769);
-            this.tvrMenu.TabIndex = 0;
-            this.tvrMenu.DoubleClick += new System.EventHandler(this.tvrMenu_DoubleClick);
+            this.pnlSidebar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(45)))));
+            this.pnlSidebar.Controls.Add(this.flpSidebarItems);
+            this.pnlSidebar.Controls.Add(this.pnlUser);
+            this.pnlSidebar.Controls.Add(this.pnlSidebarHeader);
+            this.pnlSidebar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlSidebar.Location = new System.Drawing.Point(0, 0);
+            this.pnlSidebar.Name = "pnlSidebar";
+            this.pnlSidebar.Size = new System.Drawing.Size(230, 769);
+            this.pnlSidebar.TabIndex = 0;
+            // 
+            // flpSidebarItems
+            // 
+            this.flpSidebarItems.AutoScroll = true;
+            this.flpSidebarItems.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpSidebarItems.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flpSidebarItems.Location = new System.Drawing.Point(0, 60);
+            this.flpSidebarItems.Name = "flpSidebarItems";
+            this.flpSidebarItems.Size = new System.Drawing.Size(230, 649);
+            this.flpSidebarItems.TabIndex = 1;
+            this.flpSidebarItems.WrapContents = false;
+            // 
+            // pnlUser
+            // 
+            this.pnlUser.Controls.Add(this.lblUser);
+            this.pnlUser.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlUser.Location = new System.Drawing.Point(0, 709);
+            this.pnlUser.Name = "pnlUser";
+            this.pnlUser.Size = new System.Drawing.Size(230, 60);
+            this.pnlUser.TabIndex = 2;
+            // 
+            // lblUser
+            // 
+            this.lblUser.AutoSize = true;
+            this.lblUser.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.lblUser.ForeColor = System.Drawing.Color.LightGray;
+            this.lblUser.Location = new System.Drawing.Point(12, 22);
+            this.lblUser.Name = "lblUser";
+            this.lblUser.Size = new System.Drawing.Size(47, 15);
+            this.lblUser.TabIndex = 0;
+            this.lblUser.Text = "Usuario";
+            // 
+            // pnlSidebarHeader
+            // 
+            this.pnlSidebarHeader.Controls.Add(this.lblTitle);
+            this.pnlSidebarHeader.Controls.Add(this.btnHamburger);
+            this.pnlSidebarHeader.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlSidebarHeader.Location = new System.Drawing.Point(0, 0);
+            this.pnlSidebarHeader.Name = "pnlSidebarHeader";
+            this.pnlSidebarHeader.Size = new System.Drawing.Size(230, 60);
+            this.pnlSidebarHeader.TabIndex = 0;
+            // 
+            // lblTitle
+            // 
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblTitle.ForeColor = System.Drawing.Color.White;
+            this.lblTitle.Location = new System.Drawing.Point(53, 19);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(115, 21);
+            this.lblTitle.TabIndex = 1;
+            this.lblTitle.Text = "SISPERSONAL";
+            // 
+            // btnHamburger
+            // 
+            this.btnHamburger.FlatAppearance.BorderSize = 0;
+            this.btnHamburger.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnHamburger.ForeColor = System.Drawing.Color.White;
+            this.btnHamburger.Location = new System.Drawing.Point(12, 12);
+            this.btnHamburger.Name = "btnHamburger";
+            this.btnHamburger.Size = new System.Drawing.Size(35, 35);
+            this.btnHamburger.TabIndex = 0;
+            this.btnHamburger.Text = "☰";
+            this.btnHamburger.UseVisualStyleBackColor = true;
+            this.btnHamburger.Click += new System.EventHandler(this.btnHamburger_Click);
+            // 
+            // tmrSidebar
+            // 
+            this.tmrSidebar.Interval = 10;
+            this.tmrSidebar.Tick += new System.EventHandler(this.tmrSidebar_Tick);
             // 
             // imageList1
             // 
@@ -667,7 +679,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1591, 840);
-            this.ControlBox = false;
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.toolStrip);
@@ -678,6 +689,8 @@
             this.Name = "MDIMenu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Menu Principal de Reportes";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MDIMenu_FormClosing);
             this.Load += new System.EventHandler(this.MDIMenu_Load);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
@@ -688,6 +701,11 @@
             this.splitContainer1.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.pnlSidebar.ResumeLayout(false);
+            this.pnlUser.ResumeLayout(false);
+            this.pnlUser.PerformLayout();
+            this.pnlSidebarHeader.ResumeLayout(false);
+            this.pnlSidebarHeader.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -748,7 +766,14 @@
         private System.Windows.Forms.ToolStripButton helpToolStripButton;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.TreeView tvrMenu;
+        private System.Windows.Forms.Panel pnlSidebar;
+        private System.Windows.Forms.FlowLayoutPanel flpSidebarItems;
+        private System.Windows.Forms.Panel pnlSidebarHeader;
+        private System.Windows.Forms.Button btnHamburger;
+        private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.Panel pnlUser;
+        private System.Windows.Forms.Label lblUser;
+        private System.Windows.Forms.Timer tmrSidebar;
         private System.Windows.Forms.ImageList imageList1;
     }
 }
